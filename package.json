@@ -27,8 +27,8 @@
     "mongodb": "^4.17.1",
     "mongoose": "^6.12.0",
     "next": "13.4.19",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-icons": "^4.11.0",
     "typescript": "5.2.2"
   }

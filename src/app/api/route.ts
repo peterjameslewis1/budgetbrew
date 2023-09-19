@@ -2,13 +2,7 @@ import PubModel from "../../../models/index";
 import {NextResponse, NextRequest} from "next/server";
 const {MongoClient} = require("mongodb");
 const client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
-<<<<<<< HEAD
-// const client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
-=======
-const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
-
->>>>>>> 1a2c1f331ec985f2b36a4f868dde346758e23cb5
 type Pub = {
   name: string;
   price: string;

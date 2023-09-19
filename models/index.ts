@@ -4,9 +4,6 @@ import {getModelForClass} from "@typegoose/typegoose";
 const mongoose = require("mongoose");
 
 const Schema = new mongoose.Schema({
-  id: {
-    type: String,
-  },
   name: {
     type: String,
     min: 1,

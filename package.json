@@ -27,7 +27,6 @@
     "google-maps-react-markers": "^1.4.2",
     "mongodb": "^4.17.1",
     "mongoose": "^6.12.0",
-    "nanoid": "^5.0.1",
     "next": "13.4.19",
     "react": "18.2.0",
     "react-dom": "18.2.0",

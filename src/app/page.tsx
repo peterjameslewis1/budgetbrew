@@ -61,7 +61,7 @@ export default function Home() {
           </div>
         </div>
         </div>
-        {/* { displayedResult ? 
+        { displayedResult ? 
         <Results 
           posts={filteredPosts} 
           query={query} /> 
@@ -71,7 +71,7 @@ export default function Home() {
           center={{lat: 51.499670, lng: -0.137480}}
           zoom={10}
           googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY} 
-          /> } */}
+          /> }
       </div>
     </main>
   )

@@ -30,7 +30,7 @@ if (googleMapsApiKey === '') {
         >
           <div>
           { posts.length > 0 && posts.map((post: SubmitData) => {
-            return <MarkerF key={post._id} position={{ lat: Number(post.coordinates.latitude), lng: Number(post.coordinates.longitude) }} />
+            return <MarkerF key={post._id} position={{ lat: Number(post.coordinates.lat), lng: Number(post.coordinates.lng) }} />
           })}
           </div>
         </GoogleMap>

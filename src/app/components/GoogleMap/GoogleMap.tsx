@@ -2,9 +2,9 @@ import { SubmitData } from "@/app/types/Types";
 // import GoogleMapReact from 'google-map-react';
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 
-const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10 }: { posts: SubmitData[], center: object, zoom: number }) => {
+const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10, googleMapsApiKey = '' }: { posts: SubmitData[], center: object, zoom: number, googleMapsApiKey: string }) => {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY,
+    googleMapsApiKey
   });
 
     return (

@@ -62,7 +62,7 @@ export default function Home() {
           </div>
         </div>
         </div>
-        { displayedResult ? <Results posts={filteredPosts} /> : <GoogleMap posts={filteredPosts} /> }
+        { displayedResult ? <Results posts={filteredPosts} /> : <GoogleMap posts={filteredPosts} googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ''} /> }
       </div>
     </main>
   )

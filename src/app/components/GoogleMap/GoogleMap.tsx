@@ -1,15 +1,24 @@
 import { SubmitData } from "@/app/types/Types";
-// import GoogleMapReact from 'google-map-react';
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
 
-const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10, googleMapsApiKey = '' }: { posts: SubmitData[], center: object, zoom: number, googleMapsApiKey: string }) => {
+type GoogleMapProps = {
+  posts: SubmitData[],
+  center: {
+    lat: number;
+    lng: number;
+  },
+  zoom: number,
+  googleMapsApiKey: string | undefined
+}
+
+const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10, googleMapsApiKey = '' }: GoogleMapProps) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey
   });
-
+if (googleMapsApiKey === '') {
+   return <div>Error</div>;
+  }
     return (
-        //The <Map></Map> need the following props
-        //initialCenter={} will be the center on the Map
         <div className="map-wrapper">
       {!isLoaded ? (
         <h1>Loading...</h1>
@@ -17,9 +26,13 @@ const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10,
         <GoogleMap
         mapContainerClassName="map-container"
           center={center}
-          zoom={10}
+          zoom={zoom}
         >
-          <Marker position={{ lat: 51.499670, lng: -0.137480 }} />
+          <div>
+          { posts.length > 0 && posts.map((post: SubmitData) => {
+            return <MarkerF key={post._id} position={{ lat: Number(post.coordinates.latitude), lng: Number(post.coordinates.longitude) }} />
+          })}
+          </div>
         </GoogleMap>
       )}
         </div>

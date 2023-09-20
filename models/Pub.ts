@@ -21,7 +21,7 @@ export class Pub {
   @prop()
   type: string;
 
-  @prop({default: {lat: "", lon: ""}})
+  @prop({default: {lat: "", lng: ""}})
   coordinates: {lat: ""; lon: ""};
 
   @prop({default: () => new Date()})

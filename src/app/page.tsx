@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import styles from './page.module.css'
-import dynamic from 'next/dynamic'
 import Header from './components/Header/Header'
 import { SubmitData } from './types/Types'
 import getData from './function/getData'
@@ -21,7 +20,7 @@ export default function Home() {
     if (allPosts.length > 0) return undefined
     const init = async () => {
       const posts = await getData()
-      console.log("posts page.tsx", posts);
+      console.log("posts page.tsx", posts); 
       if (posts.status === 200) {
         setAllPosts(posts.data)
         return setFilteredPosts(posts.data)
@@ -30,7 +29,7 @@ export default function Home() {
     init()
   }, [allPosts]);
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e: { target: { value: string }}) => {
     setQuery(e.target.value)
     if (query === '') return null
     const filter = allPosts.filter((post) => post.name.toLowerCase().includes(query.toLowerCase()))
@@ -62,7 +61,17 @@ export default function Home() {
           </div>
         </div>
         </div>
-        { displayedResult ? <Results posts={filteredPosts} /> : <GoogleMap posts={filteredPosts} googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY || ''} /> }
+        {/* { displayedResult ? 
+        <Results 
+          posts={filteredPosts} 
+          query={query} /> 
+         : 
+        <GoogleMap 
+          posts={filteredPosts}
+          center={{lat: 51.499670, lng: -0.137480}}
+          zoom={10}
+          googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY} 
+          /> } */}
       </div>
     </main>
   )

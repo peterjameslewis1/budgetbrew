@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect, useCallback } from 'react'
-import { SearchBox } from '@mapbox/search-js-react';
-import { SubmitData } from '../../types/Types'
+import dynamic from 'next/dynamic'
+import { SearchBoxRetrieveResponse, SubmitData } from '../../types/Types'
 import beers from '../../beers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -10,7 +10,12 @@ type Beers = {
     value: string
 }
 
-export default function Submit({ setPosts }: { setPosts: () => {} }) {
+const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
+    ssr: false,
+  })
+  
+
+export default function Submit({ setPosts }: { setPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [submitData, setSubmitData] = useState({
         name: '',
@@ -21,18 +26,17 @@ export default function Submit({ setPosts }: { setPosts: () => {} }) {
         borough: '',
         coordinates: {
             lat: '',
-            lon: ''
+            lng: ''
         },
         type: '',
         mapbox_id: '',
         date: new Date()
     })
 
-    const retireve  = (data: { features: {}[] }) => {
-        if ('features' in data) {
-            const { properties }: { properties: SubmitData } = data.features[0]
-            console.log('data.features[0', data.features[0])
-            const { name, full_address, coordinates, address, maki, context, mapbox_id } = properties
+    const retireve  = (res: any) => {
+        console.log('retireve data', res)
+        if ('features' in res) {
+            const { name, full_address, coordinates, address, maki, context, mapbox_id } = res.features[0].properties
             setSubmitData({
                 ...submitData,
                 name,
@@ -41,7 +45,7 @@ export default function Submit({ setPosts }: { setPosts: () => {} }) {
                 borough: context?.locality?.name,
                 coordinates: {
                     lat: coordinates.latitude,
-                    lon: coordinates.longitude
+                    lng: coordinates.longitude
                 },
                 type: maki,
                 date: new Date(),
@@ -68,10 +72,11 @@ export default function Submit({ setPosts }: { setPosts: () => {} }) {
         mode: "cors",
         body: JSON.stringify(submitData)
     })
-    const posts: { data: SubmitData[], status: number } = await response.json()
-    if (posts.status === 200) {
+    const { data, status }: { data: SubmitData[], status: number } = await response.json()
+    console.log('data', data)
+    if (status === 200) {
         setOpenMenu(false)
-        setPosts(posts.data)
+        setPosts(data)
         return setSubmitData({
             name: '',
             price: '',
@@ -81,7 +86,7 @@ export default function Submit({ setPosts }: { setPosts: () => {} }) {
             borough: '',
             coordinates: {
                 lat: '',
-                lon: ''
+                lng: ''
             },
             type: '',
             mapbox_id: '',
@@ -97,19 +102,19 @@ export default function Submit({ setPosts }: { setPosts: () => {} }) {
         </div>
         <form>
             <label>Search Pub:</label>
-            <SearchBox 
-            accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY}
-            options={{
-                language: 'en',
-                country: 'GB',
-                poi_category: ["pub", "bar"],
-                limit: 10,
-            }}
-            placeholder="Search..."
-            value={submitData.name}
-            onChange={() => setSubmitData((prev) => ({ ...prev, name: submitData.name }) )}
-            onRetrieve={retireve}
-        />
+            <DynamicSearchBox 
+                accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
+                options={{
+                    language: 'en',
+                    country: 'GB',
+                    poi_category: "pub,bar",
+                    limit: 10,
+                }}
+                placeholder={"Search..."}
+                value={submitData.name}
+                onChange={() => setSubmitData((prev) => ({ ...prev, name: submitData.name }) )}
+                onRetrieve={retireve}
+                />
         <label>Price:</label>
         <input placeholder='£ 0' required className='submit-price input' type="text" value={submitData.price} onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }) )} />
         <label>Drink:</label>

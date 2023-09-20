@@ -24,7 +24,6 @@ export async function POST(req: NextRequest) {
 
     // Creating pub data
     const body = await req.json();
-    console.log("body", body);
     const pub: Pub = new PubModel({
       name: body.name,
       price: body.price,
@@ -66,7 +65,6 @@ export async function GET() {
     // Get all documents
     const pubs = collection.find();
     const json = await pubs.toArray();
-    console.log("json", json);
     return NextResponse.json({status: 200, data: json});
   } catch (error) {
     console.log("error", error);

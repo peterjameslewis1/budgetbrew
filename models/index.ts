@@ -31,7 +31,7 @@ const Schema = new mongoose.Schema({
     lat: {
       type: String,
     },
-    lon: {
+    lng: {
       type: String,
     },
   },

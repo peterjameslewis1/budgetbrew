@@ -16,7 +16,7 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
         // REF
-        const ref = useRef(null)
+        const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const checkIfClickedOutside = (e: any) => {

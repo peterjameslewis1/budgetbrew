@@ -15,7 +15,7 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
   })
   
 
-export default function Submit({ setPosts, setFilteredPosts }: { setPosts: Function, setFilteredPosts: Function }) {
+export default function Submit({ setPosts }: { setPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [submitData, setSubmitData] = useState({
         name: '',
@@ -77,7 +77,6 @@ export default function Submit({ setPosts, setFilteredPosts }: { setPosts: Funct
     if (status === 200) {
         setOpenMenu(false)
         setPosts(data)
-        setFilteredPosts(data)
         return setSubmitData({
             name: '',
             price: '',
@@ -101,7 +100,7 @@ export default function Submit({ setPosts, setFilteredPosts }: { setPosts: Funct
         <h2>Submit a drink</h2>
         <FontAwesomeIcon icon={faPlus} />
         </div>
-        <form>
+        <form className={openMenu ? '' : 'display-none'}>
             <label>Search Pub:</label>
             <DynamicSearchBox 
                 accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}

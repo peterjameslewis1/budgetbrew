@@ -22,12 +22,14 @@ export default function Home() {
     if ("msg" in allPosts) return undefined
     const init = async () => {
       try {
-        const posts = await getData()
+        const response = await fetch("/api")
+        const posts = await response.json()
+        // const posts = await getData()
       console.log("posts page.tsx", posts); 
-      if (posts.status === 200) {
-        setAllPosts(posts.data)
-        return setFilteredPosts(posts.data)
-      }
+      // if (posts.status === 200) {
+      //   setAllPosts(posts.data)
+      //   return setFilteredPosts(posts.data)
+      // }
       } catch (error: any) {
         console.log('error', error)
         return setError(error)

@@ -54,14 +54,14 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         } 
     }
     // sorting alphabetically
-    const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
-    // Filtering duplicates
-    const filteredDuplicates = sortedBeers.filter(
-    (obj, index) =>
-    sortedBeers.findIndex(
-        (item) => item.label === obj.label && item.value === obj.value
-      ) === index
-  )
+//     const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
+//     // Filtering duplicates
+//     const filteredDuplicates = sortedBeers.filter(
+//     (obj, index) =>
+//     sortedBeers.findIndex(
+//         (item) => item.label === obj.label && item.value === obj.value
+//       ) === index
+//   )
 
   const postData = async () => {
     const response = await fetch('/api', {

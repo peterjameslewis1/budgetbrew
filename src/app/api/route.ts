@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const db = await connectToDb();
 
     // Collection reference (pubs)
-    const collection = db.collection("pubs");
+    const collection = await db.collection("pubs");
 
     // Creating pub data
     const body = await req.json();
@@ -64,7 +64,7 @@ export async function GET() {
     console.log("Successfully connected to Atlas");
 
     // Collection reference (pubs)
-    const collection = db.collection("pubs");
+    const collection = await db.collection("pubs");
 
     // Get all documents
     const pubs = collection.find();

@@ -13,17 +13,23 @@ import GoogleMap from './components/GoogleMap/GoogleMap'
 export default function Home() {
   const [allPosts, setAllPosts] = useState<SubmitData[]>([])
   const [filteredPosts, setFilteredPosts] = useState<SubmitData[]>(allPosts)
+  const [error, setError] = useState<{}>({})
   const [query, setQuery] = useState<string>('')
   const [displayedResult, setDisplayedResult] = useState<boolean>(true)
 
   useEffect(() => {
     if (allPosts.length > 0) return undefined
     const init = async () => {
-      const posts = await getData()
+      try {
+        const posts = await getData()
       console.log("posts page.tsx", posts); 
       if (posts.status === 200) {
         setAllPosts(posts.data)
         return setFilteredPosts(posts.data)
+      }
+      } catch (error: any) {
+        console.log('error', error)
+        return setError(error)
       }
     }
     init()

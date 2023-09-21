@@ -2,11 +2,6 @@ import PubModel from "../../../models/index";
 import {NextResponse, NextRequest} from "next/server";
 const {MongoClient} = require("mongodb");
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
-type Pub = {
-  name: string;
-  price: string;
-  drink: string;
-};
 
 let cachedDb: boolean = false;
 const connectToDb = async () => {
@@ -31,7 +26,8 @@ export async function POST(req: NextRequest) {
 
     // Creating pub data
     const body = await req.json();
-    const pub: Pub = new PubModel({
+    console.log("body", body);
+    const pub = new PubModel({
       name: body.name,
       price: body.price,
       drink: body.drink,

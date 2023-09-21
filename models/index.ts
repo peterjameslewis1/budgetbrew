@@ -1,9 +1,9 @@
 // models/index.ts
 import {Pub} from "./Pub";
 import {getModelForClass} from "@typegoose/typegoose";
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const Schema = new mongoose.Schema({
+const post = new mongoose.Schema({
   name: {
     type: String,
     min: 1,
@@ -43,5 +43,5 @@ const Schema = new mongoose.Schema({
   },
 });
 
-const PubModel = mongoose.model("PubModel", Schema);
+const PubModel = mongoose.models.PubModel || mongoose.model("PubModel", post);
 export default PubModel;

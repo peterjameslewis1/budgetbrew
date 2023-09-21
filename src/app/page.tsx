@@ -19,6 +19,7 @@ export default function Home() {
 
   useEffect(() => {
     if (allPosts.length > 0) return undefined
+    if ("msg" in allPosts) return undefined
     const init = async () => {
       try {
         const posts = await getData()
@@ -42,7 +43,6 @@ export default function Home() {
     return setFilteredPosts(filter)
   }
   console.log('allPosts', allPosts)
-  console.log('filteredPosts', filteredPosts)
   return (
     <main className={styles.main}>
       <div className='content'>

@@ -59,17 +59,17 @@ export async function POST(req: NextRequest) {
 }
 export async function GET() {
   try {
-    // Connect to db
-    // const db = await connectToDb();
-    // console.log("Successfully connected to Atlas");
+    //Connect to db
+    const db = await connectToDb();
+    console.log("Successfully connected to Atlas");
 
-    // // Collection reference (pubs)
-    // const collection = await db.collection("pubs");
+    // Collection reference (pubs)
+    const collection = await db.collection("pubs");
 
-    // // Get all documents
-    // const pubs = collection.find();
-    // const json = await pubs.toArray();
-    return NextResponse.json({status: 200, data: {msg: "Recieved /api call"}});
+    // Get all documents
+    const pubs = collection.find();
+    const json = await pubs.toArray();
+    return NextResponse.json({status: 200, data: json});
   } catch (error) {
     console.log("error", error);
     return NextResponse.json({

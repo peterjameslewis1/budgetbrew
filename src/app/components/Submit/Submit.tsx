@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 import { SearchBoxRetrieveResponse, SubmitData } from '../../types/Types'
-// import beers from '../../beers'
+import beers from '../../beers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 type Beers = {
@@ -15,7 +15,7 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
   })
   
 
-export default function Submit({ setPosts }: { setPosts: Function }) {
+export default function Submit({ setPosts, setFilteredPosts }: { setPosts: Function, setFilteredPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [submitData, setSubmitData] = useState({
         name: '',
@@ -54,14 +54,14 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         } 
     }
     // sorting alphabetically
-//     const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
-//     // Filtering duplicates
-//     const filteredDuplicates = sortedBeers.filter(
-//     (obj, index) =>
-//     sortedBeers.findIndex(
-//         (item) => item.label === obj.label && item.value === obj.value
-//       ) === index
-//   )
+    const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
+    // Filtering duplicates
+    const filteredDuplicates = sortedBeers.filter(
+    (obj, index) =>
+    sortedBeers.findIndex(
+        (item) => item.label === obj.label && item.value === obj.value
+      ) === index
+  )
 
   const postData = async () => {
     const response = await fetch('/api', {
@@ -77,6 +77,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
     if (status === 200) {
         setOpenMenu(false)
         setPosts(data)
+        setFilteredPosts(data)
         return setSubmitData({
             name: '',
             price: '',
@@ -118,12 +119,12 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         <label>Price:</label>
         <input placeholder='£ 0' required className='submit-price input' type="text" value={submitData.price} onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }) )} />
         <label>Drink:</label>
-        {/* <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={'Select drink...'} className='submit-drink input' name="lager">
+        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={'Select drink...'} className='submit-drink input' name="lager">
             <option>Select drink...</option>
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}
-        </select> */}
+        </select>
         <button className='btn blue' type="button" onClick={postData}>Submit</button>
         </form>
     </div>

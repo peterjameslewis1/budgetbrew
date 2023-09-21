@@ -2,15 +2,18 @@
 import { SubmitData } from '@/app/types/Types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 
 export default function Results({ posts, query = '' }: { posts: SubmitData[], query: string }) {
-  console.log('posts',posts)
+  const [noPosts, setNoPosts] = useState<boolean>(false)
+  const showNoResultsTimer = setTimeout(() => setNoPosts(true), 5000);
   return (
     <div className='results'>
-      { !posts.length && query === '' && <h2>Loading...</h2>}
+      { !posts.length && query === '' && noPosts && <h2>No posts</h2>}
+      { !posts.length && query === '' && !noPosts && <h2>Loading...</h2>}
       { !posts.length && query !== '' && <h2>No posts match your query</h2>}
         <ul className='pubs'>
-        { posts.length && posts.map((pub) => {
+        { posts.length > 0 && posts.map((pub) => {
           const { borough, drink, price, address, name, _id } = pub
           return <li key={_id} className='pub-wrapper'>
             <div className='pub'>

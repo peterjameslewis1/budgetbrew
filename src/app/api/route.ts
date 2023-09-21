@@ -1,7 +1,6 @@
 import PubModel from "../../../models/index";
 import {NextResponse, NextRequest} from "next/server";
 const {MongoClient} = require("mongodb");
-const client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
 type Pub = {
   name: string;
@@ -9,15 +8,23 @@ type Pub = {
   drink: string;
 };
 
+let cachedDb: boolean = false;
+const connectToDb = async () => {
+  if (cachedDb) {
+    return cachedDb;
+  }
+  let client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
+  await client.connect();
+  const db = await client.db(collectionName);
+  cachedDb = db;
+  return db;
+};
+
 export async function POST(req: NextRequest) {
   // if (!res.ok || !res.body) return;
   try {
     // Connect to db
-    await client.connect();
-    console.log("Successfully connected to Atlas");
-
-    // Reference of db collection (budgetbrews)
-    const db = client.db(collectionName);
+    const db = await connectToDb();
 
     // Collection reference (pubs)
     const collection = db.collection("pubs");
@@ -53,11 +60,8 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     // Connect to db
-    await client.connect();
+    const db = await connectToDb();
     console.log("Successfully connected to Atlas");
-
-    // Reference of db collection (budgetbrews)
-    const db = client.db(collectionName);
 
     // Collection reference (pubs)
     const collection = db.collection("pubs");

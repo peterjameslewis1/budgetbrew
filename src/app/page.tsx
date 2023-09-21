@@ -45,7 +45,7 @@ export default function Home() {
         <h4><strong>BudgetBrews</strong> is here to help you find the most affordable pubs in town.</h4>
         <p>No signup required. Search and submit your local pub prices.</p>
         </div>
-        <Submit setPosts={setAllPosts} />
+        <Submit setPosts={setAllPosts} setFilteredPosts={setFilteredPosts} />
         <div className='filter-bar'>
         <div className='display-style'>
             <h3 className={`change-display-text ${displayedResult ? 'border' : ''}`} onClick={() => setDisplayedResult(true)} >List</h3>

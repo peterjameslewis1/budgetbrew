@@ -19,7 +19,7 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
         const ref = useRef(null)
 
     useEffect(() => {
-        const checkIfClickedOutside = e => {
+        const checkIfClickedOutside = (e: any) => {
           if (ref.current && !ref.current.contains(e.target)) {
             setFilterMenuOpen(false)
           }

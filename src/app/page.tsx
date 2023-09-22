@@ -7,6 +7,7 @@ export default async function Page() {
   const response = await GET()
   const posts = await response.json()
   const { data }: { status: number, data: SubmitData[] } = posts
+  console.log('posts', data)
   return (
       <div className='content'>
         <Header />

@@ -48,7 +48,7 @@ if (googleMapsApiKey === '') {
             return(
               <MarkerF 
                 key={post._id} 
-                position={{ lat: post.coordinates.lat, lng: post.coordinates.lng }}
+                position={{ lat: Number(post.coordinates.lat), lng: Number(post.coordinates.lng) }}
                 onClick={() => handleMarkerClick(post._id, post.name, post.borough, post.full_address)}
                 >
                   { isOpen && infoWindowData.id === post._id && (

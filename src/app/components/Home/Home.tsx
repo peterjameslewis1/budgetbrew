@@ -14,6 +14,7 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     const [query, setQuery] = useState<string>('')
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
+    console.log('posts', posts)
 
     // REF
     const ref = useRef<HTMLDivElement>(null)

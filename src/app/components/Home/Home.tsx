@@ -16,13 +16,6 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
-    useEffect(() => {
-      const getCoordinates = async () => {
-        const coor = await getGeoLocation()
-        console.log('ccor', coor)
-      }
-    }, []);
-
     // REF
     const ref = useRef<HTMLDivElement>(null)
 
@@ -71,7 +64,6 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
             return 0
     }))
     },[allPosts])
-    console.log('allPosts', allPosts)
   return (
     <main>
         <div className='intro'>

@@ -38,7 +38,6 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
-        console.log('res', res)
         if ('features' in res) {
             const { name, full_address, coordinates, address, maki, context, mapbox_id } = res.features[0].properties
             setSubmitData({

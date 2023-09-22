@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     });
   }
 }
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     //Connect to db
     const db = await connectToDb();

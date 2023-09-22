@@ -28,7 +28,6 @@ if (googleMapsApiKey === '') {
    return <div>Error</div>;
   }
   const handleMarkerClick = (id: string, name: string, borough: string, full_address: string) => {
-    console.log('handleMarker')
     setInfoWindowData({ id, name, borough, full_address });
     setIsOpen(true);
   };

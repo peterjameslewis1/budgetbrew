@@ -19,7 +19,7 @@ type InfoWindowData = {
 }
 
 const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10, googleMapsApiKey = '' }: GoogleMapProps) => {
-  const [infoWindowData, setInfoWindowData] = useState<InfoWindowData>({ id: '', name: '', borough: ''});
+  const [infoWindowData, setInfoWindowData] = useState<InfoWindowData>({ id: '', name: '', borough: '', full_address: '' });
   const [isOpen, setIsOpen] = useState(false);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey

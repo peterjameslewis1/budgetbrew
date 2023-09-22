@@ -7,8 +7,8 @@ export type SubmitData = {
   address: string;
   borough: string;
   coordinates: {
-    lat: string;
-    lng: string;
+    lat: number;
+    lng: number;
   };
   type: string;
   date: Date;
@@ -35,8 +35,8 @@ export type SearchBoxRetrieveResponse = {
       address: string;
       borough: string;
       coordinates: {
-        latitude: string;
-        longitude: string;
+        latitude: number;
+        longitude: number;
       };
       type: string;
       date: Date;

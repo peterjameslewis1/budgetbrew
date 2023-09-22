@@ -5,7 +5,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Budget Brews',
-  description: '',
+  description: 'Budget Brews is here to help you find the most affordable pubs in town. No signup required. Search and submit your local pub prices.',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=1'
 }
 
 export default function RootLayout({

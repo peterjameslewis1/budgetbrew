@@ -7,6 +7,7 @@ import Results from '../../components/Results/Results'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons'
 import GoogleMap from '../../components/GoogleMap/GoogleMap'
+import getGeoLocation from '@/app/functions/getGeoLocation'
 
 export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     const [allPosts, setAllPosts] = useState<SubmitData[]>(posts)
@@ -15,8 +16,16 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
-        // REF
-        const ref = useRef<HTMLDivElement>(null)
+    useEffect(() => {
+      const getCoordinates = async () => {
+        const coor = await getGeoLocation()
+        const res = await fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/-0.209211%2C51.485756%3B-0.210877%2C51.486452?alternatives=false&geometries=geojson&overview=simplified&steps=false&access_token=pk.eyJ1IjoicGV0ZXJqYW1lc2xld2lzIiwiYSI6ImNsbWpiNjQ2ZTAyMjYya21wMHBqeWNtbzkifQ.AWfGNpaZZ9K1JpfP0fuNQQ`)
+        console.log('ccor', coor)
+      }
+    }, []);
+
+    // REF
+    const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const checkIfClickedOutside = (e: any) => {

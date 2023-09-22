@@ -40,10 +40,11 @@ export async function POST(req: NextRequest) {
 
     // Insert the document into the specified collection
     const savePub = await collection.insertOne(pub);
+    if (!savePub) {
+      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+    }
     const refetchData = await collection.find();
     const updatedData = await refetchData.toArray();
-
-    console.log(savePub ? "Saved" : "Not saved");
     return NextResponse.json({status: 200, msg: "Saved", data: updatedData});
   } catch (error) {
     console.log("error", error);
@@ -58,12 +59,17 @@ export async function GET() {
     //Connect to db
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");
-
+    if (!db) {
+      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+    }
     // Collection reference (pubs)
     const collection = await db.collection("pubs");
 
     // Get all documents
     const pubs = collection.find();
+    if (!pubs) {
+      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+    }
     const json = await pubs.toArray();
     return NextResponse.json({status: 200, data: json});
   } catch (error) {

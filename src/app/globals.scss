@@ -16,21 +16,13 @@ body {
   overflow-x: hidden;
   background-color: $background-color;
 }
-.map-wrapper {
-  position: relative;
-  width: 100%;
-  height: 500px;
-}
-.map-wrapper .map-container {
-  height: 100%;
-  width: 100%;
-}
 a {
   color: inherit;
   text-decoration: none;
 }
 .btn {
   margin-top: 30px;
+  margin-bottom: 10px;
   color: $primary-font-color;
   font-size: 16px;
   background-color: $secondary-color;
@@ -74,7 +66,6 @@ body {
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      min-height: 100vh;
       background-color: $background-color;
       position: relative;
       .intro {
@@ -153,14 +144,66 @@ body {
           }
         }
       }
-
+      .submit.open-menu {
+        height: fit-content;
+      }
       .submit {
         margin: 30px 0;
         border-radius: 7px;
         padding: 15px;
         background-color: $primary-color;
         width: 100%;
+        height: 60px;
+        transition: height 0.5s;
+        overflow: hidden;
 
+        .is-saved {
+          svg {
+            margin-left: 5px;
+          }
+        }
+
+        .lds-ring {
+          display: inline-block;
+          position: relative;
+          width: 30px;
+          height: 30px;
+        }
+        .lds-ring div {
+          box-sizing: border-box;
+          display: block;
+          position: absolute;
+          width: 34px;
+          height: 34px;
+          margin: 8px;
+          border: 3px solid #fff;
+          border-radius: 50%;
+          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          border-color: #fff transparent transparent transparent;
+        }
+        .lds-ring div:nth-child(1) {
+          animation-delay: -0.45s;
+        }
+        .lds-ring div:nth-child(2) {
+          animation-delay: -0.3s;
+        }
+        .lds-ring div:nth-child(3) {
+          animation-delay: -0.15s;
+        }
+        @keyframes lds-ring {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+        .dropdown.open-menu svg {
+          rotate: -45deg;
+        }
+        .dropdown svg {
+          rotate: 0deg;
+        }
         .dropdown {
           display: flex;
           justify-content: space-between;
@@ -171,7 +214,6 @@ body {
           font-weight: 300;
         }
         form {
-          display: none;
           label {
             font-weight: 700;
             margin-top: 20px;
@@ -182,7 +224,7 @@ body {
           }
 
           select,
-          input {
+          .input {
             width: 100%;
             padding: 10px;
             outline: none;
@@ -192,6 +234,7 @@ body {
         }
       }
       .results {
+        width: 100%;
         .pubs {
           display: flex;
           flex-direction: column;
@@ -208,16 +251,25 @@ body {
             border-radius: 7px;
             background: $primary-color;
             .pub {
-              .name {
-                font-weight: 300;
-                font-size: 25px;
+              display: flex;
+              justify-content: space-between;
+              .name-location {
+                .name {
+                  font-weight: 300;
+                  font-size: 25px;
+                }
+                .borough {
+                  font-size: 13px;
+                  display: flex;
+                  gap: 10px;
+                  color: $secondary-font-color;
+                  align-items: center;
+                }
               }
-              .borough {
-                font-size: 13px;
-                display: flex;
-                gap: 10px;
-                color: $secondary-font-color;
-                align-items: center;
+              .directions svg {
+                color: #ed6262;
+                margin: 5px;
+                font-size: 22px;
               }
             }
             .price {
@@ -232,6 +284,19 @@ body {
                 font-size: 20px;
               }
             }
+          }
+        }
+      }
+      .map-wrapper {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        .map-container {
+          height: 100%;
+          width: 100%;
+          h3,
+          p {
+            color: $primary-color;
           }
         }
       }

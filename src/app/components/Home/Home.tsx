@@ -7,7 +7,6 @@ import Results from '../../components/Results/Results'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons'
 import GoogleMap from '../../components/GoogleMap/GoogleMap'
-import getGeoLocation from '@/app/functions/getGeoLocation'
 
 export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     const [allPosts, setAllPosts] = useState<SubmitData[]>(posts)

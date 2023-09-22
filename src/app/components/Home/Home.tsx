@@ -19,7 +19,6 @@ export default function Home({ posts = [] }: { posts: SubmitData[] }) {
     useEffect(() => {
       const getCoordinates = async () => {
         const coor = await getGeoLocation()
-        const res = await fetch(`https://api.mapbox.com/directions/v5/mapbox/walking/-0.209211%2C51.485756%3B-0.210877%2C51.486452?alternatives=false&geometries=geojson&overview=simplified&steps=false&access_token=pk.eyJ1IjoicGV0ZXJqYW1lc2xld2lzIiwiYSI6ImNsbWpiNjQ2ZTAyMjYya21wMHBqeWNtbzkifQ.AWfGNpaZZ9K1JpfP0fuNQQ`)
         console.log('ccor', coor)
       }
     }, []);

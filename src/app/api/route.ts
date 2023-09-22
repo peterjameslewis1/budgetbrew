@@ -26,7 +26,6 @@ export async function POST(req: NextRequest) {
 
     // Creating pub data
     const body = await req.json();
-    console.log("body", body);
     const pub = new PubModel({
       name: body.name,
       price: body.price,
@@ -54,7 +53,7 @@ export async function POST(req: NextRequest) {
     });
   }
 }
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     //Connect to db
     const db = await connectToDb();

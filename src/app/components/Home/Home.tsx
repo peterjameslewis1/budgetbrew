@@ -10,20 +10,24 @@ import GoogleMap from '../../components/GoogleMap/GoogleMap'
 
 export default function Home() {
     const [allPosts, setAllPosts] = useState<SubmitData[]>([])
+    const [filteredPosts, setFilteredPosts] = useState<SubmitData[]>(allPosts)
     const [query, setQuery] = useState<string>('')
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
     useEffect(() => {
-      
-    }, []);
+      setFilteredPosts(allPosts)
+    }, [allPosts]);
 
     useEffect(() => {
       const initialFetch = async () => {
         const response = await fetch('/api')
         const posts = await response.json()
         const { data }: { status: number, data: SubmitData[] } = posts
-        if (data.length > 0) return setAllPosts(data)
+        if (data.length > 0) {
+          setFilteredPosts(data)
+          return setAllPosts(data)
+        }
       }
       initialFetch()
     }, []);
@@ -53,24 +57,23 @@ export default function Home() {
 
     
     const handleFilterChange = (e: { target: { value: string }}) => {
-        if (query !== '') {
-        setQuery(e.target.value)
-        const filter = allPosts.filter((post) => post.name.toLowerCase().includes(query.toLowerCase()))
-        return setAllPosts(filter)
+        if (e.target.value === '') {
+          return setFilteredPosts(allPosts)
         }
-        return setAllPosts(allPosts)
+        const filter = allPosts.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
+        return setFilteredPosts(filter)
     }
 
     const sortResults = useCallback((text: string) => {
         if (text === 'Price - Highest') {
             setFilterMenuOpen(false)
-            return setAllPosts(allPosts.sort((a, b) => Number(b.price) - Number(a.price)))
+            return setFilteredPosts(allPosts.sort((a, b) => Number(b.price) - Number(a.price)))
         } else if (text === 'Price - Lowest') {
             setFilterMenuOpen(false)
-            return setAllPosts(allPosts.sort((a, b) => Number(a.price) - Number(b.price)))
+            return setFilteredPosts(allPosts.sort((a, b) => Number(a.price) - Number(b.price)))
         }
         setFilterMenuOpen(false)
-        return setAllPosts(allPosts.sort((a: any, b: any) => {
+        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
             if (a.drink < b.drink) return -1
             if (a.drink > b.drink) return 1
             return 0
@@ -92,7 +95,7 @@ export default function Home() {
                 <div className='search-icon'>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </div>
-                <input placeholder='Search...' type="text" value={query} onChange={handleFilterChange} />
+                <input placeholder='Search...' type="text" onChange={handleFilterChange} />
                 <div className='filter-icon' ref={ref}>
                     <FontAwesomeIcon icon={faFilter} onClick={() => setFilterMenuOpen((prev) => !prev)} />
                     <div className={`filter-box ${filterMenuOpen ? '' : 'display-none'}`}>
@@ -105,7 +108,7 @@ export default function Home() {
         </div>
         { displayedResult ? 
         <Results 
-          posts={allPosts} 
+          posts={filteredPosts} 
           query={query} /> 
          : 
         <GoogleMap 

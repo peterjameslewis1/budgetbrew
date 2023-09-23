@@ -78,7 +78,6 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         body: JSON.stringify(submitData)
     })
     const { data, status }: { data: SubmitData[], status: number } = await response.json()
-    console.log('data', data)
     if (status === 200) {
         setLoader(false)
         setPostStatusMessage('Saved!')
@@ -140,7 +139,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             <p>
                 { loader && <Loader />}
                 {!loader && postStatusMessage}
-                {postStatusMessage.includes('saved') && <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} />}
+                {postStatusMessage.toLowerCase().includes('saved') && <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} />}
             </p>
         </div>
         </form>

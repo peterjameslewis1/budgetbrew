@@ -8,13 +8,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons'
 import GoogleMap from '../../components/GoogleMap/GoogleMap'
 
-export default function Home({ posts = [] }: { posts: SubmitData[] }) {
-    const [allPosts, setAllPosts] = useState<SubmitData[]>(posts)
-    const [error, setError] = useState<{}>({})
+export default function Home() {
+    const [allPosts, setAllPosts] = useState<SubmitData[]>([])
     const [query, setQuery] = useState<string>('')
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
-    console.log('posts', posts)
+
+    useEffect(() => {
+      const initialFetch = async () => {
+        const response = await fetch('/api')
+        const posts = await response.json()
+        const { data }: { status: number, data: SubmitData[] } = posts
+        if (data.length > 0) return setAllPosts(data)
+      }
+      initialFetch()
+    }, []);
 
     // REF
     const ref = useRef<HTMLDivElement>(null)

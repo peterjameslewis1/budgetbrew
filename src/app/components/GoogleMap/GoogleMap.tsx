@@ -59,7 +59,7 @@ if (googleMapsApiKey === '') {
                     >
                       <div className="info-window">
                         <h3>{infoWindowData.name}</h3>
-                        <p>{infoWindowData.borough}</p>
+                        <span>{infoWindowData.borough}</span>
                         <p>{infoWindowData.full_address ? infoWindowData.full_address : ''}</p>
                     </div>
                   </InfoWindow>

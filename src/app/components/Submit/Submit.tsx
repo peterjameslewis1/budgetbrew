@@ -131,7 +131,6 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         <input placeholder='£ 0' required className='submit-price input' type="text" value={submitData.price} onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }) )} />
         <label>Drink*</label>
         <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={'Select drink...'} className='submit-drink input' required>
-            <option>Select drink...</option>
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}

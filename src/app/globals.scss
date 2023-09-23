@@ -299,11 +299,21 @@ body {
           width: 100%;
           h3,
           p,
-          span {
+          span,
+          a {
             color: $primary-color;
           }
           p {
             margin: 10px 0;
+          }
+          .info-window a {
+            font-weight: 600;
+            background: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 7px;
+            display: block;
+            width: fit-content;
           }
         }
       }

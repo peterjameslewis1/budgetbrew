@@ -1,6 +1,7 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { SubmitData } from "@/app/types/Types";
 import { GoogleMap, MarkerF, useLoadScript, InfoWindow } from "@react-google-maps/api";
+import Link from 'next/link'
 
 type GoogleMapProps = {
   posts: SubmitData[],
@@ -61,6 +62,7 @@ if (googleMapsApiKey === '') {
                         <h3>{infoWindowData.name}</h3>
                         <span>{infoWindowData.borough}</span>
                         <p>{infoWindowData.full_address ? infoWindowData.full_address : ''}</p>
+                        { post.name && <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${post.name.replace(' ', '+')}`} className='directions'>Directions</Link>}
                     </div>
                   </InfoWindow>
                   )}

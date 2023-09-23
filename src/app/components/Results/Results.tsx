@@ -37,9 +37,11 @@ export default function Results({ posts, query = '' }: { posts: SubmitData[], qu
               <h2 className='name'>{name}</h2>
               <p className='borough'><FontAwesomeIcon icon={faLocationPin} />{borough ? borough : address}</p>
               </div>
-              <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${pub.name.replace(' ', '+')}`} className='directions'>
-              <FontAwesomeIcon icon={faLocationDot} />
-              </Link>
+              { name && 
+                <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${pub.name.replace(' ', '+')}`} className='directions'>
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </Link>
+              }
             </div>
             <div className='price'>
               <h3 className='drink'>{drink}</h3>

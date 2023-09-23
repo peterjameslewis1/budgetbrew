@@ -15,6 +15,10 @@ export default function Home() {
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
     useEffect(() => {
+      
+    }, []);
+
+    useEffect(() => {
       const initialFetch = async () => {
         const response = await fetch('/api')
         const posts = await response.json()
@@ -54,7 +58,7 @@ export default function Home() {
         const filter = allPosts.filter((post) => post.name.toLowerCase().includes(query.toLowerCase()))
         return setAllPosts(filter)
         }
-        return setAllPosts(posts)
+        return setAllPosts(allPosts)
     }
 
     const sortResults = useCallback((text: string) => {

@@ -15,6 +15,7 @@ export default function Home() {
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
       const handleWindowResize = () => {
@@ -34,12 +35,14 @@ export default function Home() {
 
     useEffect(() => {
       const initialFetch = async () => {
+        setIsLoading(true)
         const response = await fetch('/api')
         const posts = await response.json()
         const { data }: { status: number, data: SubmitData[] } = posts
         if (data.length > 0) {
           setFilteredPosts(data)
-          return setAllPosts(data)
+          setAllPosts(data)
+          return setIsLoading(false)
         }
       }
       initialFetch()
@@ -67,13 +70,13 @@ export default function Home() {
         }
       }, [])
 
-    const handleFilterChange = (e: { target: { value: string }}) => {
-        if (e.target.value === '') {
-          return setFilteredPosts(allPosts)
-        }
-        const filter = allPosts.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
-        return setFilteredPosts(filter)
-    }
+      const handleFilterChange = (e: { target: { value: string }}) => {
+          if (e.target.value === '') {
+            return setFilteredPosts(allPosts)
+          }
+          const filter = allPosts.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
+          return setFilteredPosts(filter)
+      }
 
     const sortResults = useCallback((text: string) => {
         if (text === 'Price - Highest') {
@@ -92,7 +95,7 @@ export default function Home() {
     },[allPosts])
 
     if (windowWidth >= 769) {
-      return <div className='not-mobile'>Please view on mobile.</div>
+      return <main><div className='not-mobile'>Please view on mobile.</div></main>
     }
   return (
     <main>
@@ -124,7 +127,9 @@ export default function Home() {
         { displayedResult ? 
         <Results 
           posts={filteredPosts} 
-          query={query} /> 
+          query={query} 
+          isLoading={isLoading}
+          /> 
          : 
         <GoogleMap 
           posts={allPosts}

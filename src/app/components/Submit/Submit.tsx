@@ -20,7 +20,6 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [postStatusMessage, setPostStatusMessage] = useState<string>('')
     const [loader, setLoader] = useState<boolean>(false)
-    // const [postStatus, setPostStatus] = useState<number | null>(0)
     const [submitData, setSubmitData] = useState({
         name: '',
         price: '',
@@ -123,7 +122,6 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                 }}
                 placeholder={"Search..."}
                 value={submitData.name}
-                onChange={() => setSubmitData((prev) => ({ ...prev, name: submitData.name }) )}
                 onRetrieve={retireve}
                 />
         <label>Price*</label>

@@ -122,6 +122,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                 }}
                 placeholder={"Search..."}
                 value={submitData.name}
+                onChange={() => {}}
                 onRetrieve={retireve}
                 />
         <label>Price*</label>

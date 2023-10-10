@@ -14,6 +14,19 @@ export default function Home() {
     const [query, setQuery] = useState<string>('')
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
+
+    useEffect(() => {
+      const handleWindowResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+  
+      window.addEventListener('resize', handleWindowResize);
+  
+      return () => {
+        window.removeEventListener('resize', handleWindowResize);
+      };
+    }, []);
 
     useEffect(() => {
       setFilteredPosts(allPosts)
@@ -33,11 +46,11 @@ export default function Home() {
     }, []);
 
     // REF
-    const ref = useRef<HTMLDivElement>(null)
+    const filterRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const checkIfClickedOutside = (e: any) => {
-          if (ref.current && !ref.current.contains(e.target)) {
+          if (filterRef.current && !filterRef.current.contains(e.target)) {
             setFilterMenuOpen(false)
           }
         }
@@ -54,8 +67,6 @@ export default function Home() {
         }
       }, [])
 
-
-    
     const handleFilterChange = (e: { target: { value: string }}) => {
         if (e.target.value === '') {
           return setFilteredPosts(allPosts)
@@ -79,6 +90,10 @@ export default function Home() {
             return 0
     }))
     },[allPosts])
+
+    if (windowWidth >= 769) {
+      return <div className='not-mobile'>Please view on mobile.</div>
+    }
   return (
     <main>
         <div className='intro'>
@@ -96,7 +111,7 @@ export default function Home() {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </div>
                 <input placeholder='Search...' type="text" onChange={handleFilterChange} />
-                <div className='filter-icon' ref={ref}>
+                <div className='filter-icon' ref={filterRef}>
                     <FontAwesomeIcon icon={faFilter} onClick={() => setFilterMenuOpen((prev) => !prev)} />
                     <div className={`filter-box ${filterMenuOpen ? '' : 'display-none'}`}>
                     <span onClick={(e) => sortResults('Price - Highest')}>{`Price - Highest`}</span>

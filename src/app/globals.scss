@@ -43,6 +43,8 @@ body {
     margin-top: 70px;
     background-color: $background-color;
     color: $primary-font-color;
+    display: flex;
+    justify-content: center;
     header {
       display: flex;
       justify-content: space-between;

@@ -19,6 +19,7 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
 export default function Submit({ setPosts }: { setPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [postStatusMessage, setPostStatusMessage] = useState<string>('')
+    const [formError, setFormError] = useState<boolean>('')
     const [loader, setLoader] = useState<boolean>(false)
     const [submitData, setSubmitData] = useState({
         name: '',
@@ -67,6 +68,9 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
 
   const postData = async () => {
     if (!submitData.name || !submitData.price || !submitData.drink) return setPostStatusMessage('All fields are required.')
+    priceValidation(submitData.price)
+    if (!!postStatusMessage || formError) return
+    console.log('success')
     setLoader(true)
     const response = await fetch('/api', {
         method: "POST",
@@ -102,7 +106,16 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
   }
   const openCloseMenu = (setTo: boolean) => {
     setOpenMenu(setTo)
-    setPostStatusMessage('')
+    setLoader(false)
+    return setPostStatusMessage('')
+  }
+
+  const priceValidation = (price: string) => {
+    if (price.includes('£')) price.replace('£', '')
+    const value = Number(price)
+    // if (!value || value === 0) return setPostStatusMessage('Enter valid price')
+    if (value > 20) return setPostStatusMessage('Price must be £20 or below')
+    return setPostStatusMessage('')
   }
   return (
     <div className={`submit ${openMenu ? 'open-menu' : ''} `}>
@@ -126,7 +139,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                 onRetrieve={retireve}
                 />
         <label>Price*</label>
-        <input placeholder='£ 0' required className='submit-price input' type="text" value={submitData.price} onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }) )} />
+        <input placeholder='0.00' maxLength={5} required className='submit-price input' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
         <label>Drink*</label>
         <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={'Select drink...'} className='submit-drink input' required>
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
@@ -134,12 +147,14 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             })}
         </select>
         <button className='btn blue' type="button" onClick={postData}>Submit</button>
-        <div className='is-saved'>
-            <p>
-                { loader && <Loader />}
-                {!loader && postStatusMessage}
-                {postStatusMessage.toLowerCase().includes('saved') && <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} />}
-            </p>
+        <div className='status'>
+            { loader && <p><Loader /></p>}
+            { !loader && postStatusMessage && (
+                <p className='error'>{postStatusMessage}</p>
+            )}
+            { postStatusMessage.toLowerCase().includes('saved') && (
+                <p className='success'>{postStatusMessage}! <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} /></p>
+            )}
         </div>
         </form>
     </div>

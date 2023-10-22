@@ -159,7 +159,7 @@ body {
         transition: height 0.5s;
         overflow: hidden;
 
-        .is-saved {
+        .status {
           svg {
             margin-left: 5px;
           }
@@ -235,8 +235,19 @@ body {
             -webkit-appearance: none;
             appearance: none;
           }
-          .is-saved p {
-            text-align: center;
+          input::-webkit-outer-spin-button,
+          input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+          input[type="number"] {
+            -moz-appearance: textfield;
+          }
+          .status {
+            p.error {
+              padding: 10px;
+              background: #792d2d;
+            }
           }
         }
       }

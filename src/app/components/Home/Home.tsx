@@ -124,11 +124,11 @@ export default function Home() {
                 <div className='filter-icon' ref={filterRef}>
                     <FontAwesomeIcon icon={faFilter} onClick={() => setFilterMenuOpen((prev) => !prev)} />
                     <div className={`filter-box ${filterMenuOpen ? '' : 'display-none'}`}>
-                    <span onClick={(e) => sortResults('Newest')}>{`Newest`}</span>
-                    <span onClick={(e) => sortResults('Price - Highest')}>{`Price - Highest`}</span>
-                    <span onClick={(e) => sortResults('Price - Lowest')}>{`Price - Lowest`}</span>
-                    <span onClick={(e) => sortResults('Alphabetical - Pub')}>{`Alphabetical - Pub`}</span>
-                    <span onClick={(e) => sortResults('Alphabetical - Drink')}>{`Alphabetical - Drink`}</span>
+                    <span onClick={(e) => sortResults('Newest', filteredPosts)}>{`Newest`}</span>
+                    <span onClick={(e) => sortResults('Price - Highest', filteredPosts)}>{`Price - Highest`}</span>
+                    <span onClick={(e) => sortResults('Price - Lowest', filteredPosts)}>{`Price - Lowest`}</span>
+                    <span onClick={(e) => sortResults('Alphabetical - Pub', filteredPosts)}>{`Alphabetical - Pub`}</span>
+                    <span onClick={(e) => sortResults('Alphabetical - Drink', filteredPosts)}>{`Alphabetical - Drink`}</span>
                 </div>
                 </div>
             </div>

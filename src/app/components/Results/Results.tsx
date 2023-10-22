@@ -11,6 +11,7 @@ export default function Results({ posts, query = '', isLoading }: { posts: Submi
       { !posts.length && query === '' && isLoading && <h2>Loading...</h2>}
       { !posts.length && query === '' && !isLoading && <h2>No posts</h2>}
       { !posts.length && query !== '' && <h2>No posts match your query</h2>}
+      { posts.length > 0 && <div className='number-of-results'><p>{posts.length} results</p></div> }
         <ul className='pubs'>
         { posts.length > 0 && posts.map((pub) => {
           console.log('date', pub?.date)

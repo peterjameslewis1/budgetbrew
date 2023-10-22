@@ -78,7 +78,6 @@ body {
         }
       }
       .filter-bar {
-        margin-bottom: 20px;
         display: flex;
         background: $primary-color;
         border-radius: 7px;
@@ -250,6 +249,15 @@ body {
             }
           }
         }
+      }
+      .number-of-results {
+        margin: 20px 0 5px 0;
+    color: lightgrey;
+    font-size: 14px;
+    p {
+      display: flex;
+      justify-content: flex-end;
+    }
       }
       .results {
         width: 100%;

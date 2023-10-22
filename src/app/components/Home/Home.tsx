@@ -33,6 +33,34 @@ export default function Home() {
       setFilteredPosts(allPosts)
     }, [allPosts]);
 
+    const sortResults = useCallback((text: string) => {
+      if (text === 'Price - Highest') {
+          setFilterMenuOpen(false)
+          return setFilteredPosts(allPosts.sort((a, b) => Number(b.price) - Number(a.price)))
+      } else if (text === 'Price - Lowest') {
+          setFilterMenuOpen(false)
+          return setFilteredPosts(allPosts.sort((a, b) => Number(a.price) - Number(b.price)))
+      } else if (text === 'Alphabetical - Pub') {
+        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
+          if (a.name < b.name) return -1
+          if (a.name > b.name) return 1
+          return 0
+        }))
+      } else if (text === 'Alphabetical - Drink') {
+        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
+          if (a.drink < b.drink) return -1
+          if (a.drink > b.drink) return 1
+          return 0
+      }))} else if (text === 'Newest') {
+        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
+        if (a.date > b.date) return -1
+        if (a.date < b.date) return 1
+        return 0
+        }))
+      }
+      setFilterMenuOpen(false)
+  },[allPosts])
+
     useEffect(() => {
       const initialFetch = async () => {
         setIsLoading(true)
@@ -40,7 +68,6 @@ export default function Home() {
         const posts = await response.json()
         const { data }: { status: number, data: SubmitData[] } = posts
         if (data.length > 0) {
-          setFilteredPosts(data)
           setAllPosts(data)
           return setIsLoading(false)
         }
@@ -48,6 +75,11 @@ export default function Home() {
       initialFetch()
     }, []);
 
+    useEffect(() => {
+      console.log('filter')
+      if (allPosts.length) return sortResults('Newest')
+    }, [allPosts.length, sortResults]);
+    console.log('filteredPosts', filteredPosts)
     // REF
     const filterRef = useRef<HTMLDivElement>(null)
 
@@ -78,22 +110,6 @@ export default function Home() {
           return setFilteredPosts(filter)
       }
 
-    const sortResults = useCallback((text: string) => {
-        if (text === 'Price - Highest') {
-            setFilterMenuOpen(false)
-            return setFilteredPosts(allPosts.sort((a, b) => Number(b.price) - Number(a.price)))
-        } else if (text === 'Price - Lowest') {
-            setFilterMenuOpen(false)
-            return setFilteredPosts(allPosts.sort((a, b) => Number(a.price) - Number(b.price)))
-        }
-        setFilterMenuOpen(false)
-        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
-            if (a.drink < b.drink) return -1
-            if (a.drink > b.drink) return 1
-            return 0
-    }))
-    },[allPosts])
-
     if (windowWidth >= 769) {
       return <main><div className='not-mobile'>Please view on mobile.</div></main>
     }
@@ -117,9 +133,11 @@ export default function Home() {
                 <div className='filter-icon' ref={filterRef}>
                     <FontAwesomeIcon icon={faFilter} onClick={() => setFilterMenuOpen((prev) => !prev)} />
                     <div className={`filter-box ${filterMenuOpen ? '' : 'display-none'}`}>
+                    <span onClick={(e) => sortResults('Newest')}>{`Newest`}</span>
                     <span onClick={(e) => sortResults('Price - Highest')}>{`Price - Highest`}</span>
                     <span onClick={(e) => sortResults('Price - Lowest')}>{`Price - Lowest`}</span>
-                    <span onClick={(e) => sortResults('Alphabetical')}>Alphabetical</span>
+                    <span onClick={(e) => sortResults('Alphabetical - Pub')}>{`Alphabetical - Pub`}</span>
+                    <span onClick={(e) => sortResults('Alphabetical - Drink')}>{`Alphabetical - Drink`}</span>
                 </div>
                 </div>
             </div>

@@ -18,8 +18,8 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
 
 export default function Submit({ setPosts }: { setPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
-    const [postStatusMessage, setPostStatusMessage] = useState<string>('')
-    const [formError, setFormError] = useState<boolean>('')
+    const [errorMessage, setErrorMessage] = useState<string>('')
+    const [successMessage, setSuccessMessage] = useState<string>('')
     const [loader, setLoader] = useState<boolean>(false)
     const [submitData, setSubmitData] = useState({
         name: '',
@@ -34,7 +34,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         },
         type: '',
         mapbox_id: '',
-        date: new Date()
+        date: ''
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
@@ -51,7 +51,6 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                     lng: coordinates.longitude
                 },
                 type: maki,
-                date: new Date(),
                 mapbox_id
             })
         } 
@@ -67,10 +66,9 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
   )
 
   const postData = async () => {
-    if (!submitData.name || !submitData.price || !submitData.drink) return setPostStatusMessage('All fields are required.')
+    if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')
     priceValidation(submitData.price)
-    if (!!postStatusMessage || formError) return
-    console.log('success')
+    if (!!errorMessage) return
     setLoader(true)
     const response = await fetch('/api', {
         method: "POST",
@@ -78,12 +76,16 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             "Content-Type": "application/json",
         },
         mode: "cors",
-        body: JSON.stringify(submitData)
+        body: JSON.stringify({
+            ...submitData,
+            date: Date.now()
+        })
     })
     const { data, status }: { data: SubmitData[], status: number } = await response.json()
     if (status === 200) {
         setLoader(false)
-        setPostStatusMessage('Saved!')
+        setErrorMessage('')
+        setSuccessMessage('Saved!')
         setPosts(data)
         return setSubmitData({
             name: '',
@@ -102,20 +104,20 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         })
     }
     setLoader(false)
-    return setPostStatusMessage('We had trouble saving your post... Have a pint and let us sort it out!')
+    return setErrorMessage('We had trouble saving your post... Have a pint and let us sort it out!')
   }
   const openCloseMenu = (setTo: boolean) => {
     setOpenMenu(setTo)
     setLoader(false)
-    return setPostStatusMessage('')
+    setSuccessMessage('')
+    return setErrorMessage('')
   }
 
   const priceValidation = (price: string) => {
     if (price.includes('£')) price.replace('£', '')
     const value = Number(price)
-    // if (!value || value === 0) return setPostStatusMessage('Enter valid price')
-    if (value > 20) return setPostStatusMessage('Price must be £20 or below')
-    return setPostStatusMessage('')
+    if (value > 20) return setErrorMessage('Price must be £20 or below')
+    return setErrorMessage('')
   }
   return (
     <div className={`submit ${openMenu ? 'open-menu' : ''} `}>
@@ -141,7 +143,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         <label>Price*</label>
         <input placeholder='0.00' maxLength={5} required className='submit-price input' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
         <label>Drink*</label>
-        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={'Select drink...'} className='submit-drink input' required>
+        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input' required>
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}
@@ -149,11 +151,11 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         <button className='btn blue' type="button" onClick={postData}>Submit</button>
         <div className='status'>
             { loader && <p><Loader /></p>}
-            { !loader && postStatusMessage && (
-                <p className='error'>{postStatusMessage}</p>
+            { !loader && errorMessage && (
+                <p className='error'>{errorMessage}</p>
             )}
-            { postStatusMessage.toLowerCase().includes('saved') && (
-                <p className='success'>{postStatusMessage}! <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} /></p>
+            { successMessage && (
+                <p className='success'>{successMessage}! <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} /></p>
             )}
         </div>
         </form>

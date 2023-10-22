@@ -35,8 +35,8 @@ export async function POST(req: NextRequest) {
       borough: body.borough,
       coordinates: body.coordinates,
       type: body.type,
+      date: body.date || ''
     });
-
     // Insert the document into the specified collection
     const savePub = await collection.insertOne(pub);
     if (!savePub) {
@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
 }
 export async function GET() {
   try {
+
     //Connect to db
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");
@@ -63,7 +64,6 @@ export async function GET() {
     }
     // Collection reference (pubs)
     const collection = await db.collection("pubs");
-
     // Get all documents
     const pubs = collection.find();
     if (!pubs) {

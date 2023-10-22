@@ -3,6 +3,7 @@ import { SubmitData } from '@/app/types/Types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationPin, faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
+import moment from 'moment';
 
 export default function Results({ posts, query = '', isLoading }: { posts: SubmitData[], query: string, isLoading: boolean }) {
   return (
@@ -12,13 +13,15 @@ export default function Results({ posts, query = '', isLoading }: { posts: Submi
       { !posts.length && query !== '' && <h2>No posts match your query</h2>}
         <ul className='pubs'>
         { posts.length > 0 && posts.map((pub) => {
+          console.log('date', pub?.date)
+          const postDate = pub.date ? moment(pub.date).fromNow() : ''
           const { borough, drink, price, address, name, _id } = pub
           
           return <li key={_id} className='pub-wrapper'>
             <div className='pub'>
               <div className='name-location'>
               <h2 className='name'>{name}</h2>
-              <p className='borough'><FontAwesomeIcon icon={faLocationPin} />{borough ? borough : address}</p>
+              <p className='borough'><FontAwesomeIcon icon={faLocationPin} />{borough ? borough : address} - {postDate}</p>
               </div>
               { name && 
                 <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${pub.name.replace(' ', '+')}`} className='directions'>

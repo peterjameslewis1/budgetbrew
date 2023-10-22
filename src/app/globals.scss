@@ -241,6 +241,7 @@ body {
           }
           input[type="number"] {
             -moz-appearance: textfield;
+            appearance: none;
           }
           .status {
             p.error {

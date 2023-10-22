@@ -76,10 +76,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             "Content-Type": "application/json",
         },
         mode: "cors",
-        body: JSON.stringify({
-            ...submitData,
-            date: Date.now()
-        })
+        body: JSON.stringify(submitData)
     })
     const { data, status }: { data: SubmitData[], status: number } = await response.json()
     if (status === 200) {
@@ -100,7 +97,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             },
             type: '',
             mapbox_id: '',
-            date: new Date()
+            date: ''
         })
     }
     setLoader(false)

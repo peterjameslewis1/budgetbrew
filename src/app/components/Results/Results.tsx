@@ -14,7 +14,6 @@ export default function Results({ posts, query = '', isLoading }: { posts: Submi
       { posts.length > 0 && <div className='number-of-results'><p>{posts.length} results</p></div> }
         <ul className='pubs'>
         { posts.length > 0 && posts.map((pub) => {
-          console.log('date', pub?.date)
           const postDate = pub.date ? moment(pub.date).fromNow() : ''
           const { borough, drink, price, address, name, _id } = pub
           

@@ -29,37 +29,35 @@ export default function Home() {
       };
     }, []);
 
-    useEffect(() => {
-      setFilteredPosts(allPosts)
-    }, [allPosts]);
-
-    const sortResults = useCallback((text: string) => {
+    const sortResults = useCallback((text: string, data = []) => {
       if (text === 'Price - Highest') {
           setFilterMenuOpen(false)
-          return setFilteredPosts(allPosts.sort((a, b) => Number(b.price) - Number(a.price)))
+          return setFilteredPosts(data.sort((a, b) => Number(b.price) - Number(a.price)))
       } else if (text === 'Price - Lowest') {
           setFilterMenuOpen(false)
-          return setFilteredPosts(allPosts.sort((a, b) => Number(a.price) - Number(b.price)))
+          return setFilteredPosts(data.sort((a, b) => Number(a.price) - Number(b.price)))
       } else if (text === 'Alphabetical - Pub') {
-        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
+        setFilterMenuOpen(false)
+        return setFilteredPosts(data.sort((a: any, b: any) => {
           if (a.name < b.name) return -1
           if (a.name > b.name) return 1
           return 0
         }))
       } else if (text === 'Alphabetical - Drink') {
-        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
+        setFilterMenuOpen(false)
+        return setFilteredPosts(data.sort((a: any, b: any) => {
           if (a.drink < b.drink) return -1
           if (a.drink > b.drink) return 1
           return 0
       }))} else if (text === 'Newest') {
-        return setFilteredPosts(allPosts.sort((a: any, b: any) => {
-        if (a.date < b.date) return -1
-        if (a.date > b.date) return 1
-        return 0
-        }))
+        setFilterMenuOpen(false)
+        let dataWithDates = data.filter((x: SubmitData) => x.date && new Date(x.date) instanceof Date)
+        const restWithoutData = data.filter((x: SubmitData) => !x.date)
+        dataWithDates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        return setFilteredPosts([ ...dataWithDates, ...restWithoutData ])
       }
       setFilterMenuOpen(false)
-  },[allPosts])
+  },[])
 
     useEffect(() => {
       const initialFetch = async () => {
@@ -68,18 +66,14 @@ export default function Home() {
         const posts = await response.json()
         const { data }: { status: number, data: SubmitData[] } = posts
         if (data.length > 0) {
+          sortResults('Newest', data)
           setAllPosts(data)
           return setIsLoading(false)
         }
       }
       initialFetch()
-    }, []);
+    }, [sortResults]);
 
-    useEffect(() => {
-      console.log('filter')
-      if (allPosts.length) return sortResults('Newest')
-    }, [allPosts.length, sortResults]);
-    console.log('filteredPosts', filteredPosts)
     // REF
     const filterRef = useRef<HTMLDivElement>(null)
 
@@ -110,9 +104,6 @@ export default function Home() {
           return setFilteredPosts(filter)
       }
 
-    // if (windowWidth >= 769) {
-    //   return <main><div className='not-mobile'>Please view on mobile.</div></main>
-    // }
   return (
     <main>
         <div className='intro'>

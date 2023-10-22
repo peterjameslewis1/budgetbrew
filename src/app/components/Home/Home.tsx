@@ -32,10 +32,10 @@ export default function Home() {
     const sortResults = useCallback((text: string, data = []) => {
       if (text === 'Price - Highest') {
           setFilterMenuOpen(false)
-          return setFilteredPosts(data.sort((a, b) => Number(b.price) - Number(a.price)))
+          return setFilteredPosts(data.sort((a: any, b: any) => Number(b.price) - Number(a.price)))
       } else if (text === 'Price - Lowest') {
           setFilterMenuOpen(false)
-          return setFilteredPosts(data.sort((a, b) => Number(a.price) - Number(b.price)))
+          return setFilteredPosts(data.sort((a: any, b: any) => Number(a.price) - Number(b.price)))
       } else if (text === 'Alphabetical - Pub') {
         setFilterMenuOpen(false)
         return setFilteredPosts(data.sort((a: any, b: any) => {

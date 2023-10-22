@@ -33,8 +33,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             lng: 0
         },
         type: '',
-        mapbox_id: '',
-        date: ''
+        mapbox_id: ''
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
@@ -51,9 +50,10 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                     lng: coordinates.longitude
                 },
                 type: maki,
-                mapbox_id
+                mapbox_id,
             })
         } 
+         
     }
     // sorting alphabetically
     const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
@@ -76,7 +76,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             "Content-Type": "application/json",
         },
         mode: "cors",
-        body: JSON.stringify(submitData)
+        body: JSON.stringify({ ...submitData, date: Date.now() })
     })
     const { data, status }: { data: SubmitData[], status: number } = await response.json()
     if (status === 200) {
@@ -96,8 +96,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                 lng: 0
             },
             type: '',
-            mapbox_id: '',
-            date: ''
+            mapbox_id: ''
         })
     }
     setLoader(false)

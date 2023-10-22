@@ -53,8 +53,8 @@ export default function Home() {
           return 0
       }))} else if (text === 'Newest') {
         return setFilteredPosts(allPosts.sort((a: any, b: any) => {
-        if (a.date > b.date) return -1
-        if (a.date < b.date) return 1
+        if (a.date < b.date) return -1
+        if (a.date > b.date) return 1
         return 0
         }))
       }

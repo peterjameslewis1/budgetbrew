@@ -110,9 +110,9 @@ export default function Home() {
           return setFilteredPosts(filter)
       }
 
-    if (windowWidth >= 769) {
-      return <main><div className='not-mobile'>Please view on mobile.</div></main>
-    }
+    // if (windowWidth >= 769) {
+    //   return <main><div className='not-mobile'>Please view on mobile.</div></main>
+    // }
   return (
     <main>
         <div className='intro'>

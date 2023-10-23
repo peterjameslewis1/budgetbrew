@@ -14,20 +14,7 @@ export default function Home() {
     const [query, setQuery] = useState<string>('')
     const [displayedResult, setDisplayedResult] = useState<boolean>(true)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
     const [isLoading, setIsLoading] = useState<boolean>(false)
-
-    useEffect(() => {
-      const handleWindowResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-  
-      window.addEventListener('resize', handleWindowResize);
-  
-      return () => {
-        window.removeEventListener('resize', handleWindowResize);
-      };
-    }, []);
 
     const sortResults = useCallback((text: string, data = []) => {
       if (text === 'Price - Highest') {
@@ -66,7 +53,7 @@ export default function Home() {
         const posts = await response.json()
         const { data }: { status: number, data: SubmitData[] } = posts
         if (data.length > 0) {
-          sortResults('Newest', data)
+          sortResults('Price - Lowest', data)
           setAllPosts(data)
           return setIsLoading(false)
         }

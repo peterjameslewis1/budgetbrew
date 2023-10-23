@@ -1,9 +1,7 @@
 "use client"
 import { SubmitData } from '@/app/types/Types'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationPin, faLocationDot } from '@fortawesome/free-solid-svg-icons'
-import Link from 'next/link'
 import moment from 'moment';
+import Result from './Result'
 
 export default function Results({ posts, query = '', isLoading }: { posts: SubmitData[], query: string, isLoading: boolean }) {
   return (
@@ -15,25 +13,16 @@ export default function Results({ posts, query = '', isLoading }: { posts: Submi
         <ul className='pubs'>
         { posts.length > 0 && posts.map((pub) => {
           const postDate = pub.date ? moment(pub.date).fromNow() : ''
-          const { borough, drink, price, address, name, _id } = pub
-          
-          return <li key={_id} className='pub-wrapper'>
-            <div className='pub'>
-              <div className='name-location'>
-              <h2 className='name'>{name}</h2>
-              <p className='borough'><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{borough ? borough : address} - {postDate}</p>
-              </div>
-              { name && 
-                <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${pub.name.replace(' ', '+')}`} className='directions'>
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </Link>
-              }
-            </div>
-            <div className='price'>
-              <h3 className='drink'>{drink}</h3>
-              <span>£{price}</span>
-            </div>
-          </li>
+          const { borough, drink, price, full_address, name, _id } = pub
+          return <Result
+                  key={_id}
+                  name={name}
+                  full_address={full_address}
+                  price={price}
+                  drink={drink}
+                  borough={borough}
+                  postDate={postDate}
+                  />
         })}
         </ul>
     </div>

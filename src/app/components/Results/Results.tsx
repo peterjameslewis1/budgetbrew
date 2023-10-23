@@ -13,11 +13,12 @@ export default function Results({ posts, query = '', isLoading }: { posts: Submi
         <ul className='pubs'>
         { posts.length > 0 && posts.map((pub) => {
           const postDate = pub.date ? moment(pub.date).fromNow() : ''
-          const { borough, drink, price, full_address, name, _id } = pub
+          const { borough, drink, price, full_address, address, name, _id } = pub
           return <Result
                   key={_id}
                   name={name}
                   full_address={full_address}
+                  address={address}
                   price={price}
                   drink={drink}
                   borough={borough}

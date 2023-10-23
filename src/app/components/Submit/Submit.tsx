@@ -37,6 +37,7 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
+        console.log('res', res)
         if ('features' in res) {
             const { name, full_address, coordinates, address, maki, context, mapbox_id } = res.features[0].properties
             setSubmitData({
@@ -136,10 +137,12 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                 onChange={() => {}}
                 onRetrieve={retireve}
                 />
+        <label className='is-weatherspoons-label'>Is this pub a Weatherspoons: <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} required/></label>
         <label>Price*</label>
         <input placeholder='0.00' maxLength={5} required className='submit-price input' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
         <label>Drink*</label>
         <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input' required>
+            <option value="none" selected disabled hidden>Select an drink</option> 
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}

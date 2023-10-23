@@ -5,8 +5,9 @@ import Submit from '../Submit/Submit'
 import { SubmitData } from '../../types/Types'
 import Results from '../../components/Results/Results'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faSort } from '@fortawesome/free-solid-svg-icons'
 import GoogleMap from '../../components/GoogleMap/GoogleMap'
+import Filterbox from '../Filterbox/Filterbox'
 
 export default function Home() {
     const [allPosts, setAllPosts] = useState<SubmitData[]>([])
@@ -17,33 +18,31 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const sortResults = useCallback((text: string, data = []) => {
+      console.log('text', text)
       if (text === 'Price - Highest') {
-          setFilterMenuOpen(false)
           return setFilteredPosts(data.sort((a: any, b: any) => Number(b.price) - Number(a.price)))
       } else if (text === 'Price - Lowest') {
-          setFilterMenuOpen(false)
           return setFilteredPosts(data.sort((a: any, b: any) => Number(a.price) - Number(b.price)))
       } else if (text === 'Alphabetical - Pub') {
-        setFilterMenuOpen(false)
         return setFilteredPosts(data.sort((a: any, b: any) => {
           if (a.name < b.name) return -1
           if (a.name > b.name) return 1
           return 0
         }))
       } else if (text === 'Alphabetical - Drink') {
-        setFilterMenuOpen(false)
         return setFilteredPosts(data.sort((a: any, b: any) => {
           if (a.drink < b.drink) return -1
           if (a.drink > b.drink) return 1
           return 0
       }))} else if (text === 'Newest') {
-        setFilterMenuOpen(false)
         let dataWithDates = data.filter((x: SubmitData) => x.date && new Date(x.date) instanceof Date)
         const restWithoutData = data.filter((x: SubmitData) => !x.date)
         dataWithDates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
         return setFilteredPosts([ ...dataWithDates, ...restWithoutData ])
+      } else if (text === 'Hide Weatherspoons') {
+        return setFilteredPosts(data.filter((pub) => !pub.name.toLowerCase().includes('weatherspoon')))
       }
-      setFilterMenuOpen(false)
+      
   },[])
 
     useEffect(() => {
@@ -109,14 +108,14 @@ export default function Home() {
                 </div>
                 <input placeholder='Search...' type="text" onChange={handleFilterChange} />
                 <div className='filter-icon' ref={filterRef}>
-                    <FontAwesomeIcon icon={faFilter} onClick={() => setFilterMenuOpen((prev) => !prev)} />
-                    <div className={`filter-box ${filterMenuOpen ? '' : 'display-none'}`}>
-                    <span onClick={(e) => sortResults('Newest', filteredPosts)}>{`Newest`}</span>
-                    <span onClick={(e) => sortResults('Price - Highest', filteredPosts)}>{`Price - Highest`}</span>
-                    <span onClick={(e) => sortResults('Price - Lowest', filteredPosts)}>{`Price - Lowest`}</span>
-                    <span onClick={(e) => sortResults('Alphabetical - Pub', filteredPosts)}>{`Alphabetical - Pub`}</span>
-                    <span onClick={(e) => sortResults('Alphabetical - Drink', filteredPosts)}>{`Alphabetical - Drink`}</span>
-                </div>
+                    <FontAwesomeIcon icon={faSort} onClick={() => setFilterMenuOpen((prev) => !prev)} />
+                    { filterMenuOpen && <Filterbox 
+                      filterMenuOpen={filterMenuOpen} 
+                      filteredPosts={filteredPosts}
+                      sortResults={sortResults}
+                      setFilterMenuOpen={setFilterMenuOpen}
+                      /> 
+                    }
                 </div>
             </div>
         </div>

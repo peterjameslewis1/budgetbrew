@@ -60,6 +60,7 @@ if (googleMapsApiKey === '') {
                   full_address: post.full_address, 
                   price: post.price 
                 })}
+                onLoad={(e) => console.log('marker', e)}
                 >
                   { isOpen && infoWindowData.id === post._id && (
                     <InfoWindow 
@@ -74,7 +75,7 @@ if (googleMapsApiKey === '') {
                         </div>
                         <span><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{infoWindowData.borough}</span>
                         <p>{infoWindowData.full_address ? infoWindowData.full_address : ''}</p>
-                        { post.name && <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${post.name.replace(' ', '+')}`} className='directions'>Directions</Link>}
+                        { post.name && <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${post.name.replace(' ', '+')},${post.full_address}`} className='directions'>Directions</Link>}
                     </div>
                   </InfoWindow>
                   )}

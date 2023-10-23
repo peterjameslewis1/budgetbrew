@@ -21,7 +21,7 @@ export default function Results({ posts, query = '', isLoading }: { posts: Submi
             <div className='pub'>
               <div className='name-location'>
               <h2 className='name'>{name}</h2>
-              <p className='borough'><FontAwesomeIcon icon={faLocationPin} />{borough ? borough : address} - {postDate}</p>
+              <p className='borough'><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{borough ? borough : address} - {postDate}</p>
               </div>
               { name && 
                 <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${pub.name.replace(' ', '+')}`} className='directions'>

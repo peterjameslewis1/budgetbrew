@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { SubmitData } from "@/app/types/Types";
 import { GoogleMap, MarkerF, useLoadScript, InfoWindow } from "@react-google-maps/api";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationPin } from '@fortawesome/free-solid-svg-icons'
 import Link from 'next/link'
 
 type GoogleMapProps = {
@@ -17,10 +19,11 @@ type InfoWindowData = {
   id: string;
   borough: string;
   full_address: string;
+  price: string;
 }
 
 const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10, googleMapsApiKey = '' }: GoogleMapProps) => {
-  const [infoWindowData, setInfoWindowData] = useState<InfoWindowData>({ id: '', name: '', borough: '', full_address: '' });
+  const [infoWindowData, setInfoWindowData] = useState<InfoWindowData>({ id: '', name: '', borough: '', full_address: '', price: '' });
   const [isOpen, setIsOpen] = useState(false);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey
@@ -28,8 +31,8 @@ const Map = ({ posts = [], center = {lat: 51.499670, lng: -0.137480}, zoom = 10,
 if (googleMapsApiKey === '') {
    return <div>Error</div>;
   }
-  const handleMarkerClick = (id: string, name: string, borough: string, full_address: string) => {
-    setInfoWindowData({ id, name, borough, full_address });
+  const handleMarkerClick = ({ id, name, borough, full_address, price}: InfoWindowData) => {
+    setInfoWindowData({ id, name, borough, full_address, price });
     setIsOpen(true);
   };
     return (
@@ -50,7 +53,13 @@ if (googleMapsApiKey === '') {
               <MarkerF 
                 key={post._id} 
                 position={{ lat: Number(post.coordinates.lat), lng: Number(post.coordinates.lng) }}
-                onClick={() => handleMarkerClick(post._id, post.name, post.borough, post.full_address)}
+                onClick={() => handleMarkerClick({ 
+                  id: post._id, 
+                  name: post.name, 
+                  borough: post.borough, 
+                  full_address: post.full_address, 
+                  price: post.price 
+                })}
                 >
                   { isOpen && infoWindowData.id === post._id && (
                     <InfoWindow 
@@ -59,8 +68,11 @@ if (googleMapsApiKey === '') {
                     }}
                     >
                       <div className="info-window">
+                        <div className="title">
                         <h3>{infoWindowData.name}</h3>
-                        <span>{infoWindowData.borough}</span>
+                        <span>£{infoWindowData.price}</span>
+                        </div>
+                        <span><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{infoWindowData.borough}</span>
                         <p>{infoWindowData.full_address ? infoWindowData.full_address : ''}</p>
                         { post.name && <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${post.name.replace(' ', '+')}`} className='directions'>Directions</Link>}
                     </div>

@@ -141,7 +141,7 @@ export default function Home() {
           /> 
          : 
         <GoogleMap 
-          posts={allPosts}
+          posts={filteredPosts}
           center={{lat: 51.499670, lng: -0.137480}}
           zoom={10}
           googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_API_KEY} 

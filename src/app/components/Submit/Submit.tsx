@@ -16,12 +16,13 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
   })
   
 
-export default function Submit({ setPosts }: { setPosts: Function }) {
+export default function Submit({ setAllPosts }: { setAllPosts: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [successMessage, setSuccessMessage] = useState<string>('')
     const [loader, setLoader] = useState<boolean>(false)
-    const [submitData, setSubmitData] = useState({
+    const [submitData, setSubmitData] = useState<SubmitData>({
+        _id: '',
         name: '',
         price: '',
         drink: '',
@@ -33,11 +34,11 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
             lng: 0
         },
         type: '',
-        mapbox_id: ''
+        mapbox_id: '',
+        date: ''
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
-        console.log('res', res)
         if ('features' in res) {
             const { name, full_address, coordinates, address, maki, context, mapbox_id } = res.features[0].properties
             setSubmitData({
@@ -84,8 +85,9 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
         setLoader(false)
         setErrorMessage('')
         setSuccessMessage('Saved!')
-        setPosts(data)
+        setAllPosts(data)
         return setSubmitData({
+            _id: '',
             name: '',
             price: '',
             drink: '',
@@ -97,7 +99,8 @@ export default function Submit({ setPosts }: { setPosts: Function }) {
                 lng: 0
             },
             type: '',
-            mapbox_id: ''
+            mapbox_id: '',
+            date: ''
         })
     }
     setLoader(false)

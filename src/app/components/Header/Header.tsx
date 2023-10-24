@@ -1,6 +1,7 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
+import beer from '../../../../public//beer.png'
 export default function Header() {
   return (
     <header>  
@@ -8,7 +9,7 @@ export default function Header() {
         <Image 
         height="50"
         width="50"
-        src={"https://img.icons8.com/plasticine/100/beer.png"}
+        src={beer}
         alt="beer"
         />
     </header>

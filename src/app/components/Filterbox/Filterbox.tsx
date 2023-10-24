@@ -13,8 +13,6 @@ const inputs = [
 
 export default function Filterbox({ filterMenuOpen, filteredPosts, sortResults, setFilterMenuOpen }: { filterMenuOpen: boolean, filteredPosts: SubmitData[], sortResults: Function, setFilterMenuOpen: Function }) {
     const [checked, setChecked] = useState('Price - Lowest')
-    console.log('checked', checked)
-    console.log('checked', checked)
   return (
     <div className={`filter-box ${filterMenuOpen ? '' : 'display-none'}`}>
         <div className='close-filterbox'onClick={() => setFilterMenuOpen((prev: boolean) => !prev)} ><FontAwesomeIcon icon={faXmark} /></div>

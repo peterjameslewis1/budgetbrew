@@ -79,6 +79,18 @@ body {
       .intro {
         margin: 10px 0;
 
+        a {
+          display: inline-block;
+          margin-top: 20px;
+          color: $secondary-font-color;
+          font-size: 14px;
+          text-decoration: underline;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
         p {
           font-size: 14px;
           margin-top: 5px;

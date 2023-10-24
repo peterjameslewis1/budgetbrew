@@ -11,13 +11,12 @@ export type SubmitData = {
     lng: number;
   };
   type: string;
-  date: Date;
-  content: {
+  date: Date | string;
+  content?: {
     locality: string;
   };
-  maki: string;
   mapbox_id: string;
-  context: {
+  context?: {
     locality: {name: string};
   };
 };

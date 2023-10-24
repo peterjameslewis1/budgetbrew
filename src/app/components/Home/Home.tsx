@@ -5,7 +5,7 @@ import Submit from '../Submit/Submit'
 import { SubmitData } from '../../types/Types'
 import Results from '../../components/Results/Results'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faSort } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faSort, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import GoogleMap from '../../components/GoogleMap/GoogleMap'
 import Filterbox from '../Filterbox/Filterbox'
 
@@ -18,7 +18,6 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const sortResults = useCallback((text: string, data = []) => {
-      console.log('text', text)
       if (text === 'Price - Highest') {
           return setFilteredPosts(data.sort((a: any, b: any) => Number(b.price) - Number(a.price)))
       } else if (text === 'Price - Lowest') {
@@ -49,8 +48,8 @@ export default function Home() {
       const initialFetch = async () => {
         setIsLoading(true)
         const response = await fetch('/api')
-        const posts = await response.json()
-        const { data }: { status: number, data: SubmitData[] } = posts
+        const posts: { status: number, data: SubmitData[] } = await response.json()
+        const { data } = posts
         if (data.length > 0) {
           sortResults('Price - Lowest', data)
           setAllPosts(data)
@@ -95,8 +94,9 @@ export default function Home() {
         <div className='intro'>
             <h4><strong>BudgetBrews</strong> is here to help you find the most affordable pubs in town.</h4>
             <p>No signup required. Search and submit your local pub prices.</p>
+            {/* <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a> */}
         </div>
-        <Submit setPosts={setAllPosts} />
+        <Submit setAllPosts={setAllPosts} />
         <div className='filter-bar'>
             <div className='display-style'>
                 <h3 className={`change-display-text ${displayedResult ? 'border' : ''}`} onClick={() => setDisplayedResult(true)} >List</h3>

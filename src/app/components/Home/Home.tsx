@@ -39,7 +39,7 @@ export default function Home() {
         dataWithDates.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
         return setFilteredPosts([ ...dataWithDates, ...restWithoutData ])
       } else if (text === 'Hide Weatherspoons') {
-        return setFilteredPosts(data.filter((pub) => !pub.name.toLowerCase().includes('weatherspoon')))
+        return setFilteredPosts(data.filter((pub: SubmitData) => !pub.name.toLowerCase().includes('weatherspoon')))
       }
       
   },[])

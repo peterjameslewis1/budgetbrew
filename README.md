@@ -1,3 +1,10 @@
+BudgetBrews
+
+Tech stack - Next.js, Typescript, MongoDB and SCSS
+
+I built this small application as I moved to London recently and though a fun app would be to create keep track of the prices and locations of cheap to expensive pub and restaurants. 
+
+
 Complete Deployed Netlify app - https://budgetbrews.netlify.app/
 
 

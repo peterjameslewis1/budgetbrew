@@ -1,5 +1,4 @@
 const sortResults = <T extends { price: string, name: string, drink: string, date: Date | string }>(text: string, data: T[]) => {
-  console.log('text', text)
   if (text === 'Price - Highest') {
       return data.sort((a: T, b: T) => Number(b.price) - Number(a.price))
   } else if (text === 'Price - Lowest') {
@@ -23,5 +22,6 @@ const sortResults = <T extends { price: string, name: string, drink: string, dat
   } else if (text === 'Hide Weatherspoons') {
     return data.filter((pub: T) => !pub.name.toLowerCase().includes('weatherspoon'))
   }
+  return data
 }
 export default sortResults

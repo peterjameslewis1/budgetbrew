@@ -24,11 +24,12 @@ export default function Home() {
         setIsLoading(true)
         const response = await fetch('/api')
         const posts: { status: number, data: SubmitData[] } = await response.json()
-        const { data }: { data: SubmitData[] } = posts
+        const { data = [] }: { data: SubmitData[] } = posts
         console.log(data)
         if (data.length > 0) {
-          sort<SubmitData>('Newest', data)
-          setAllResults(data)
+          const sortByNewest: SubmitData[] | [] = sort<SubmitData>('Newest', data)
+          setFilteredResults(sortByNewest)
+          setAllResults(sortByNewest)
           return setIsLoading(false)
         }
       }

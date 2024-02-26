@@ -33,7 +33,7 @@ export default function Filterbox({ filterMenuOpen, filteredResults, setFilterMe
             </div>
             <div className='filter'>
                 <h3>Filter:</h3>
-                <input id='hide-weatherspoons' className='filter-input' type="checkbox" value={`Hide Weatherspoons`} onClick={(e) => sortResults('Hide Weatherspoons', filteredResults)} />
+                <input id='hide-weatherspoons' className='filter-input' type="checkbox" value={`Hide Weatherspoons`} onClick={(e) => sort<SubmitData>('Hide Weatherspoons', filteredResults)} />
                 <label htmlFor='hide-weatherspoons' >Hide Weatherspoons</label>
             </div>
     </div>

@@ -16,7 +16,7 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
   })
   
 
-export default function Submit({ setAllPosts }: { setAllPosts: Function }) {
+export default function Submit({ setAllResults }: { setAllResults: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [successMessage, setSuccessMessage] = useState<string>('')
@@ -85,7 +85,7 @@ export default function Submit({ setAllPosts }: { setAllPosts: Function }) {
         setLoader(false)
         setErrorMessage('')
         setSuccessMessage('Saved!')
-        setAllPosts(data)
+        setAllResults(data)
         return setSubmitData({
             _id: '',
             name: '',

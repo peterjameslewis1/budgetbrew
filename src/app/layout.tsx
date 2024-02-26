@@ -1,6 +1,7 @@
 import './globals.scss'
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
+import Head from 'next/head'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,6 +17,9 @@ export default function RootLayout({
 }) {
     return (
       <html lang="en">
+        <Head>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' rel='stylesheet' />
+        </Head>
         <body className={inter.className}>{children}</body>
       </html>
     )

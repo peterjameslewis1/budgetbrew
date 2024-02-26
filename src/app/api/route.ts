@@ -1,8 +1,9 @@
+require('dotenv').config()
 import PubModel from "../../../models/index";
 import {NextResponse, NextRequest} from "next/server";
 const {MongoClient} = require("mongodb");
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
-
+console.log('collectionName', collectionName)
 let cachedDb: boolean = false;
 const connectToDb = async () => {
   if (cachedDb) {
@@ -55,24 +56,23 @@ export async function POST(req: NextRequest) {
 }
 export async function GET() {
   try {
-
+    console.log('GET request')
     //Connect to db
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");
     if (!db) {
-      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+      return NextResponse.json({status: 500, msg: "Cannot connect to database", data: [] });
     }
     // Collection reference (pubs)
     const collection = await db.collection("pubs");
     // Get all documents
     const pubs = collection.find();
     if (!pubs) {
-      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+      return NextResponse.json({status: 500, msg: "Cannot get data at this time.", data: [] });
     }
     const json = await pubs.toArray();
     return NextResponse.json({status: 200, data: json});
   } catch (error) {
-    console.log("error", error);
     return NextResponse.json({
       code: 500,
       message: "Something went wrong.",

@@ -11,7 +11,7 @@ import Link from 'next/link'
 
 const MapboxMap: React.FC<{ filteredResults: SubmitData[] }> = ({ filteredResults }) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
-  const [popupInfo, setPopupInfo] = useState<SubmitData>({})
+  const [popupInfo, setPopupInfo] = useState<SubmitData>()
 
   const pins = useMemo(() => {
     return filteredResults.map((result: SubmitData) => {
@@ -48,7 +48,7 @@ const MapboxMap: React.FC<{ filteredResults: SubmitData[] }> = ({ filteredResult
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
        {pins}
-       {showPopup && (
+       {showPopup && popupInfo && (
           <Popup
             anchor="top"
             longitude={Number(popupInfo.coordinates.lng)}

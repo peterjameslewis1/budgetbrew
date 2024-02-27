@@ -31,8 +31,8 @@ export default function Filterbox({ filterMenuOpen, filteredResults, setFilterMe
     console.log('sortSelection', sortSelection)
 
     // Handles selections of the sort and filter function
-    const handleSortAndFilter = (e: MouseEvent<HTMLLIElement>, setterFunction: Function): void => {
-        const selection = e.target.innerHTML
+    const handleSortAndFilter = (e: React.MouseEvent<HTMLLIElement>, setterFunction: Function): void => {
+        const selection = (e.target as HTMLLIElement).innerHTML
         if (sortSelection === selection) {
             setFilteredResults(sort<SubmitData>(defaultSortChoice, filteredResults))
             return setterFunction(defaultSortChoice)

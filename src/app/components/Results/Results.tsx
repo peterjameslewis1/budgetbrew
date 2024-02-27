@@ -4,6 +4,7 @@ import moment from 'moment';
 import Result from './Result'
 
 export default function Results({ posts, query = '', isLoading }: { posts: SubmitData[], query: string, isLoading: boolean }) {
+  console.log('posts', posts)
   return (
     <div className='results'>
       { !posts.length && query === '' && isLoading && <h2>Loading...</h2>}

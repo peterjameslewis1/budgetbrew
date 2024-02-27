@@ -11,10 +11,20 @@ import Filterbox from '../Filterbox/Filterbox'
 import MapboxMap from '../MapboxMap/MapboxMap'
 import sort from '../../utils/sort'
 
+
+const defaultSortChoice = 'Newest'
+const sortChoices = [
+  { name: 'Newest' },
+  { name: 'Price - Lowest' },
+  { name: 'Price - Highest' },
+  { name: 'Alphabetical - Pub' },
+  { name: 'Alphabetical - Drink' }
+]
+
 export default function Home() {
     const [allResults, setAllResults] = useState<SubmitData[]>([])
     const [filteredResults, setFilteredResults] = useState<SubmitData[]>([])
-    const [query, setQuery] = useState<string>('')
+    const [query] = useState<string>('')
     const [showMap, setShowMap] = useState<boolean>(false)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -27,7 +37,7 @@ export default function Home() {
         const { data = [] }: { data: SubmitData[] } = posts
         console.log(data)
         if (data.length > 0) {
-          const sortByNewest: SubmitData[] | [] = sort<SubmitData>('Newest', data)
+          const sortByNewest: SubmitData[] | [] = sort<SubmitData>(defaultSortChoice, data)
           setFilteredResults(sortByNewest)
           setAllResults(sortByNewest)
           return setIsLoading(false)
@@ -51,20 +61,20 @@ export default function Home() {
         }
       }, [filterMenuOpen])
     
-      useEffect(() => {
-        document.body.style.overflow = "hidden"
-        return () => {
-          document.body.style.overflow = "auto"
-        }
-      }, [])
-
-      const handleFilterChange = (e: { target: { value: string }}) => {
-          if (e.target.value === '') {
-            return setFilteredResults(allResults)
-          }
-          const filter = allResults.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
-          return setFilteredResults(filter)
+    useEffect(() => {
+      document.body.style.overflow = "hidden"
+      return () => {
+        document.body.style.overflow = "auto"
       }
+    }, [])
+
+    const handleFilterChange = (e: { target: { value: string }}) => {
+        if (e.target.value === '') {
+          return setFilteredResults(allResults)
+        }
+        const filter = filteredResults.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
+        return setFilteredResults(filter)
+    }
 
   return (
     <main>
@@ -86,18 +96,20 @@ export default function Home() {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </div>
                 <input placeholder='Search...' type="text" onChange={handleFilterChange} />
-                <div className='filter-icon' ref={filterRef}  onClick={() => setFilterMenuOpen((prev) => !prev)} >
-                    <FontAwesomeIcon icon={faSort} />
-                    { filterMenuOpen && <Filterbox 
-                      filterMenuOpen={filterMenuOpen} 
-                      filteredResults={filteredResults}
-                      setFilterMenuOpen={setFilterMenuOpen}
-                      /> 
-                    }
+                <div className='filter-icon' ref={filterRef}  onClick={() => setFilterMenuOpen(true)} >
+                  <FontAwesomeIcon icon={faSort} />
                 </div>
             </div>
+            <Filterbox 
+              filterMenuOpen={filterMenuOpen}
+              setFilterMenuOpen={setFilterMenuOpen}
+              filteredResults={filteredResults}
+              setFilteredResults={setFilteredResults}
+              defaultSortChoice={defaultSortChoice}
+              sortChoices={sortChoices}
+              />
         </div>
-        { showMap && !!filteredResults.length ? 
+        { showMap ? 
           <MapboxMap filteredResults={filteredResults} />
          : 
          <Results 

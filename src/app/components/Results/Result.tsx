@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationPin, faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faLocationPin, faDiamondTurnRight } from '@fortawesome/free-solid-svg-icons'
 type Props = {
     name: string;
     borough: string;
@@ -22,7 +22,7 @@ export default function Result( { name, borough, full_address, address, drink, p
               </div>
               { name && 
                 <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${name.replace(' ', '+')},${full_address}`} className='directions'>
-                  <FontAwesomeIcon icon={faLocationDot} />
+                  <FontAwesomeIcon icon={faDiamondTurnRight} />
                 </Link>
               }
             </div>

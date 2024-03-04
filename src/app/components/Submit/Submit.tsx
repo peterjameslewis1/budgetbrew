@@ -1,4 +1,5 @@
 "use client"
+require('dotenv').config()
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
@@ -6,17 +7,19 @@ import beers from '../../beers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus,faCheck } from '@fortawesome/free-solid-svg-icons'
 import Loader from '../Loader/Loader'
+
+const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
+    ssr: false,
+})
+  
 type Beers = {
     label: string;
     value: string
 }
 
-const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
-    ssr: false,
-  })
-  
+type SubmitProps = { setFilteredResults: Function }
 
-export default function Submit({ setAllResults }: { setAllResults: Function }) {
+const Submit: React.FC<SubmitProps> = ({ setFilteredResults }): JSX.Element => {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [successMessage, setSuccessMessage] = useState<string>('')
@@ -72,7 +75,7 @@ export default function Submit({ setAllResults }: { setAllResults: Function }) {
     priceValidation(submitData.price)
     if (!!errorMessage) return
     setLoader(true)
-    const response = await fetch('/api', {
+    const response = await fetch(`${process.env.URL}/api`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -85,7 +88,7 @@ export default function Submit({ setAllResults }: { setAllResults: Function }) {
         setLoader(false)
         setErrorMessage('')
         setSuccessMessage('Saved!')
-        setAllResults(data)
+        setFilteredResults(data)
         return setSubmitData({
             _id: '',
             name: '',
@@ -164,3 +167,4 @@ export default function Submit({ setAllResults }: { setAllResults: Function }) {
     </div>
   )
 }
+export default Submit

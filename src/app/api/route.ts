@@ -1,6 +1,7 @@
 require('dotenv').config()
 import PubModel from "../../../models/index";
 import {NextResponse, NextRequest} from "next/server";
+import { SubmitData } from "../types/Types";
 const {MongoClient} = require("mongodb");
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
 
@@ -42,16 +43,17 @@ export async function POST(req: NextRequest) {
     const savePub = await collection.insertOne(pub);
     console.log('savePub', savePub)
     if (!savePub) {
-      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+      return NextResponse.json({status: 500, message: "Not Saved", data: [] });
     }
     const refetchData = await collection.find();
-    const updatedData = await refetchData.toArray();
-    return NextResponse.json({status: 200, msg: "Saved", data: updatedData});
+    const updatedData = await refetchData.toArray() | []
+    return NextResponse.json({status: 200, message: "Saved", data: updatedData });
   } catch (error) {
     console.log("error", error);
     return NextResponse.json({
       error: 500,
       message: "Something went wrong.",
+      data: []
     });
   }
 }
@@ -62,21 +64,23 @@ export async function GET() {
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");
     if (!db) {
-      return NextResponse.json({status: 500, msg: "Error establishing a database connection.", data: [] });
+      return NextResponse.json({status: 500, message: "Error establishing a database connection.", data: [] });
     }
     // Collection reference (pubs)
     const collection = await db.collection("pubs");
     // Get all documents
     const pubs = collection.find();
     if (!pubs) {
-      return NextResponse.json({status: 502, msg: "Server cannot provide data at this time.", data: [] });
+      return NextResponse.json({status: 502, message: "Server cannot provide data at this time.", data: [] });
     }
-    const json = await pubs.toArray();
+    const json: SubmitData[] = await pubs.toArray();
+    console.log('json', json)
     return NextResponse.json({status: 200, message: 'Success', data: json});
   } catch (error) {
     return NextResponse.json({
       code: 500,
       message: "Something went wrong.",
+      data: []
     });
   }
 }

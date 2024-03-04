@@ -8,7 +8,7 @@ import LoadingSkeleton from './Result/Skeleton';
 export default function Results({ posts = [], query = '', isLoading }: { posts: SubmitData[], query: string, isLoading: boolean }) {
   console.log('posts', posts)
   return (
-    <div className='results mt-1'>
+    <div className='results mt-4'>
       { posts.length === 0 && <LoadingSkeleton />}
       {/* { !posts.length && query === '' && isLoading && <h2>Loading...</h2>}
       { !posts.length && query === '' && !isLoading && <h2>No posts</h2>}

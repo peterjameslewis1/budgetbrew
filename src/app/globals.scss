@@ -286,10 +286,9 @@ body {
         }
         form {
           .is-weatherspoons-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            display: inline-block;
             height: 20px;
+            margin-right: 10px;
           }
           label {
             font-weight: 700;

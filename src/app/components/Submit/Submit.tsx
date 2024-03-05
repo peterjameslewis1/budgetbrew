@@ -125,7 +125,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         <h2>Submit a drink</h2>
         <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} />
         </div>
-        <form action='/api' type="submit" >
+        <form action={postData} >
             <label>Search Pub*</label>
             <DynamicSearchBox 
                 accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
@@ -140,7 +140,8 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 onChange={() => {}}
                 onRetrieve={retireve}
                 />
-        <label className='is-weatherspoons-label'>Is this pub a Weatherspoons: <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} required/></label>
+        <label className='is-weatherspoons-label'>Is this pub a Weatherspoons: </label>
+        <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
         <label>Price*</label>
         <input placeholder='0.00' max={20} maxLength={5} required className='submit-price input text-black' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
         <label>Drink*</label>
@@ -150,7 +151,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}
         </select>
-        <button className='btn blue' type="button" onClick={postData}>Submit</button>
+        <button className='btn blue' type="submit">Submit</button>
         <div className='status'>
             { loader && <p><Loader /></p>}
             { !loader && errorMessage && (

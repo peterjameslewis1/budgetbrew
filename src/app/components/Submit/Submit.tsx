@@ -16,7 +16,7 @@ const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
   })
   
 
-export default function Submit({ setAllResults }: { setAllResults: Function }) {
+export default function Submit({ setFilteredResults }: { setFilteredResults: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
     const [successMessage, setSuccessMessage] = useState<string>('')
@@ -85,7 +85,7 @@ export default function Submit({ setAllResults }: { setAllResults: Function }) {
         setLoader(false)
         setErrorMessage('')
         setSuccessMessage('Saved!')
-        setAllResults(data)
+        setFilteredResults(data)
         return setSubmitData({
             _id: '',
             name: '',
@@ -125,7 +125,7 @@ export default function Submit({ setAllResults }: { setAllResults: Function }) {
         <h2>Submit a drink</h2>
         <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} />
         </div>
-        <form>
+        <form action='/api' type="submit" >
             <label>Search Pub*</label>
             <DynamicSearchBox 
                 accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
@@ -142,9 +142,9 @@ export default function Submit({ setAllResults }: { setAllResults: Function }) {
                 />
         <label className='is-weatherspoons-label'>Is this pub a Weatherspoons: <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} required/></label>
         <label>Price*</label>
-        <input placeholder='0.00' maxLength={5} required className='submit-price input' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
+        <input placeholder='0.00' max={20} maxLength={5} required className='submit-price input text-black' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
         <label>Drink*</label>
-        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input' required>
+        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input text-black' required>
             <option value="none" selected disabled hidden>Select an drink</option> 
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>

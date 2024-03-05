@@ -85,7 +85,7 @@ export default function Home() {
             <a href='mailto:peterjameslewis4@hotmail.com'>Feedback</a>
             <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a>
         </div>
-        <Submit setAllResults={setAllResults} />
+        <Submit setFilteredResults={setFilteredResults} />
         <div className='filter-bar'>
             <div className='display-style'>
                 <h3 className={`change-display-text ${showMap ? '' : 'border'}`} onClick={() => setShowMap(false)} >List</h3>

@@ -24,7 +24,6 @@ const sortChoices = [
 export default function Home() {
     const [allResults, setAllResults] = useState<SubmitData[]>([])
     const [filteredResults, setFilteredResults] = useState<SubmitData[]>([])
-    const [query] = useState<string>('')
     const [showMap, setShowMap] = useState<boolean>(false)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -109,15 +108,14 @@ export default function Home() {
               sortChoices={sortChoices}
               />
         </div>
-        { showMap ? 
+        {/* { showMap ? 
           <MapboxMap filteredResults={filteredResults} />
          : 
          <Results 
           posts={filteredResults} 
-          query={query} 
           isLoading={isLoading}
           /> 
-        }
+        } */}
     </main>
   )
 }

@@ -1,12 +1,11 @@
 "use client"
-import React, { Suspense } from 'react';
+import React from 'react';
 import { SubmitData } from '@/app/types/Types'
 import moment from 'moment';
 import Result from './Result/Result'
 import LoadingSkeleton from './Result/Skeleton';
 
-export default function Results({ posts = [], query = '', isLoading }: { posts: SubmitData[], query: string, isLoading: boolean }) {
-  console.log('posts', posts)
+export default function Results({ posts = [] }: { posts: SubmitData[] }) {
   return (
     <div className='results mt-4'>
       { posts.length === 0 && <LoadingSkeleton />}
@@ -25,15 +24,15 @@ export default function Results({ posts = [], query = '', isLoading }: { posts: 
           const { borough, drink, price, full_address, address, name, _id } = pub
           return (
             <Result
-                    key={_id}
-                    name={name}
-                    full_address={full_address}
-                    address={address}
-                    price={price}
-                    drink={drink}
-                    borough={borough}
-                    postDate={postDate}
-                    />
+              key={_id}
+              name={name}
+              full_address={full_address}
+              address={address}
+              price={price}
+              drink={drink}
+              borough={borough}
+              postDate={postDate}
+              />
         )})}
         </ul>
     </div>

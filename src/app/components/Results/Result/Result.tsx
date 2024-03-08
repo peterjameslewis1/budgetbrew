@@ -15,21 +15,21 @@ export default function Result( { name, borough, full_address, address, drink, p
 
   return (
     <li className='pub-wrapper'>
-            <div className='pub'>
-              <div className='name-location'>
-              <h2 className='name'>{name}</h2>
-              <p className='borough'><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{borough ? borough : address} - {postDate}</p>
-              </div>
-              { name && 
-                <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${name.replace(' ', '+')},${full_address}`} className='directions'>
-                  <FontAwesomeIcon icon={faDiamondTurnRight} />
-                </Link>
-              }
-            </div>
-            <div className='price'>
-              <h3 className='drink'>{drink}</h3>
-              <span>£{price}</span>
-            </div>
-          </li>
+      <div className='pub'>
+        <div className='name-location'>
+        <h2 className='name'>{name}</h2>
+        <p className='borough'><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{borough ? borough : address} - {postDate}</p>
+        </div>
+        { name && 
+          <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${name.replace(' ', '+')},${full_address}`} className='directions'>
+            <FontAwesomeIcon icon={faLocationPin} />
+          </Link>
+        }
+      </div>
+      <div className='price'>
+        <h3 className='drink'>{drink}</h3>
+        <span>£{price}</span>
+      </div>
+    </li>
   )
 }

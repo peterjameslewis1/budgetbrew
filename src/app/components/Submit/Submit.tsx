@@ -125,7 +125,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         <h2>Submit a drink</h2>
         <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} />
         </div>
-        <form action={postData} >
+        <form>
             <label>Search Pub*</label>
             <DynamicSearchBox 
                 accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
@@ -151,7 +151,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}
         </select>
-        <button className='btn blue' type="submit">Submit</button>
+        <button className='btn blue' onClick={postData}>Submit</button>
         <div className='status'>
             { loader && <p><Loader /></p>}
             { !loader && errorMessage && (

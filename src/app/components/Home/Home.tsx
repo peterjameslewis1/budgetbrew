@@ -26,11 +26,9 @@ export default function Home() {
     const [filteredResults, setFilteredResults] = useState<SubmitData[]>([])
     const [showMap, setShowMap] = useState<boolean>(false)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
       const initialFetch = async () => {
-        setIsLoading(true)
         const response = await fetch('/api')
         const posts: { status: number, data: SubmitData[] } = await response.json()
         const { data = [] }: { data: SubmitData[] } = posts
@@ -38,8 +36,7 @@ export default function Home() {
         if (data.length > 0) {
           const sortByNewest: SubmitData[] | [] = sort<SubmitData>(defaultSortChoice, data)
           setFilteredResults(sortByNewest)
-          setAllResults(sortByNewest)
-          return setIsLoading(false)
+          return setAllResults(sortByNewest)
         }
       }
       initialFetch()
@@ -108,14 +105,13 @@ export default function Home() {
               sortChoices={sortChoices}
               />
         </div>
-        {/* { showMap ? 
+        { showMap ? 
           <MapboxMap filteredResults={filteredResults} />
          : 
          <Results 
           posts={filteredResults} 
-          isLoading={isLoading}
           /> 
-        } */}
+        }
     </main>
   )
 }

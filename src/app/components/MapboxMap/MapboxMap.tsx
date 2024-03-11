@@ -55,14 +55,15 @@ const MapboxMap: React.FC<{ filteredResults: SubmitData[] }> = ({ filteredResult
             latitude={Number(popupInfo.coordinates.lat)}
             onClose={() => setShowPopup(false)}
           >
-                                  <div className="info-window">
-                        <div className="title">
-                        <h3>{popupInfo.name}</h3>
-                        <span>£{popupInfo.price}</span>
-                        </div>
-                        <p><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{popupInfo.full_address ? popupInfo.full_address : ''}</p>
-                        { popupInfo.name && <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${popupInfo.name.replace(' ', '+')},${popupInfo.full_address}`} className='directions'>Directions</Link>}
-                    </div>
+            <div className="info-window text-[#252524]">
+                <div className="title">
+                  <h2 className='font-bold text-lg'>{popupInfo.name}</h2>
+                  <span>£{popupInfo.price}</span>
+                </div>
+                  <p><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{popupInfo.full_address ? popupInfo.address : popupInfo.full_address}</p>
+                  { popupInfo.drink && <div className='mt-3'><span className='text-xl p-'>{popupInfo.drink}</span></div> }
+                  { popupInfo.name && <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${popupInfo.name.replace(' ', '+')},${popupInfo.full_address}`} className='directions'>Directions</Link>}
+            </div>
           </Popup>
         )}
     </Map>

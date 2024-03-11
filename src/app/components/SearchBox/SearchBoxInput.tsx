@@ -14,10 +14,9 @@ type SearchBoxProps = {
     onRetrieve: (res: any) => void,
     placeholder: string
 }
-export default function SearchBoxInput({ accessToken, options, value, onChange, onRetrieve, placeholder }:SearchBoxProps) {
+export default function SearchBoxInput({ accessToken, options, value, onChange, onRetrieve, placeholder }:SearchBoxProps){
   return (
     <>
-    {/* @ts-expect-error Server Component */}
     <SearchBox 
         accessToken={accessToken}
         options={options}

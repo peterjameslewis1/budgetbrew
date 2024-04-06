@@ -1,9 +1,10 @@
 require('dotenv').config()
 import PubModel from "../../../models/index";
-import {NextResponse, NextRequest} from "next/server";
-import { SubmitData } from "../types/Types";
+import { NextResponse, NextRequest } from "next/server";
+import { SubmitData } from "../types/ClientTypes";
 const {MongoClient} = require("mongodb");
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
+import { Response } from '../types/ServerTypes'
 
 let cachedDb: boolean = false;
 const connectToDb = async () => {
@@ -17,8 +18,7 @@ const connectToDb = async () => {
   return db;
 };
 
-export async function POST(req: NextRequest) {
-  // if (!res.ok || !res.body) return;
+export async function POST(req: NextRequest): Promise<NextResponse<Response>> {
   try {
     // Connect to db
     const db = await connectToDb();
@@ -39,27 +39,28 @@ export async function POST(req: NextRequest) {
       type: body.type,
       date: body.date || ''
     });
+
     // Insert the document into the specified collection
     const savePub = await collection.insertOne(pub);
-    console.log('savePub', savePub)
     if (!savePub) {
       return NextResponse.json({status: 500, message: "Not Saved", data: [] });
     }
+
     const refetchData = await collection.find();
-    const updatedData = await refetchData.toArray() | []
+    const updatedData: SubmitData[] = await refetchData.toArray();
     return NextResponse.json({status: 200, message: "Saved", data: updatedData });
   } catch (error) {
-    console.log("error", error);
     return NextResponse.json({
-      error: 500,
+      status: 500,
       message: "Something went wrong.",
       data: []
     });
   }
 }
-export async function GET() {
+
+export async function GET(): Promise<NextResponse<Response>> {
+  console.log('GET REQUEST')
   try {
-    console.log('GET request')
     //Connect to db
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");
@@ -73,12 +74,11 @@ export async function GET() {
     if (!pubs) {
       return NextResponse.json({status: 502, message: "Server cannot provide data at this time.", data: [] });
     }
-    const json: SubmitData[] = await pubs.toArray();
-    console.log('json', json)
-    return NextResponse.json({status: 200, message: 'Success', data: json});
+    const json: SubmitData[] = await pubs.toArray() || []
+    return NextResponse.json({status: 200, message: 'Success', data: json });
   } catch (error) {
     return NextResponse.json({
-      code: 500,
+      status: 500,
       message: "Something went wrong.",
       data: []
     });

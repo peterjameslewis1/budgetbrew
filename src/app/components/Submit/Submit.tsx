@@ -122,12 +122,13 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
   return (
     <div className={`submit ${openMenu ? 'open-menu' : ''} `}>
         <div className={`dropdown ${openMenu ? 'open-menu' : ''} `} onClick={() => openCloseMenu(!openMenu)}>
-        <h2>Submit a drink</h2>
+        <h2>Submit a pint</h2>
         <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} />
         </div>
         <form>
-            <label>Search Pub*</label>
-            <DynamicSearchBox 
+            <label>
+                Search Pub:
+                <DynamicSearchBox 
                 accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
                 options={{
                     language: 'en',
@@ -140,17 +141,37 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 onChange={() => {}}
                 onRetrieve={retireve}
                 />
-        <label className='is-weatherspoons-label'>Is this pub a Weatherspoons: </label>
-        <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
-        <label>Price*</label>
-        <input placeholder='0.00' max={20} maxLength={5} required className='submit-price input text-black' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
-        <label>Drink*</label>
-        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input text-black' required>
+                </label>
+
+        <label>Price:
+            <input placeholder='£0.00' max={20} maxLength={5} required className='submit-price input text-black' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
+        </label>
+        <label>
+            Drink:
+            <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input text-black' required>
             <option value="none" selected disabled hidden>Select an drink</option> 
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}
         </select>
+        <label>
+            If your drink is not listed add it here:
+            <input type='text' className='submit-price input text-black' onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
+        </label>
+        </label>
+        <p>Select any that apply</p>
+        <label className='check-box-labels'>
+            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
+            Is this pub a Weatherspoons?
+        </label>
+        <label className='check-box-labels'>
+            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
+            Beer Garden?
+        </label>
+        <label className='check-box-labels'>
+            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
+            Sports?
+        </label>
         <button className='btn blue' onClick={postData}>Submit</button>
         <div className='status'>
             { loader && <p><Loader /></p>}

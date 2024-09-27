@@ -19,6 +19,10 @@ export type SubmitData = {
   context?: {
     locality: {name: string};
   };
+  newPub: string;
+  isWeatherspoons?: boolean;
+  beerGarden?: boolean;
+  sports?: boolean;
 };
 
 export type SearchBoxRetrieveResponse = {

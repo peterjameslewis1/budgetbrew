@@ -7,13 +7,18 @@ const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
 let cachedDb: boolean = false;
 const connectToDb = async () => {
   if (cachedDb) {
+    console.log(cachedDb)
     return cachedDb;
   }
-  let client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
-  await client.connect();
-  const db = await client.db(collectionName);
-  cachedDb = db;
-  return db;
+  try {
+    let client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
+    await client.connect();
+    const db = await client.db(collectionName);
+    cachedDb = db;
+    return db;
+  } catch (e) {
+    console.log('ERROR:', e)
+  }
 };
 
 export async function POST(req: NextRequest) {

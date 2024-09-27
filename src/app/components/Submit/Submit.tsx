@@ -35,7 +35,11 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         },
         type: '',
         mapbox_id: '',
-        date: ''
+        date: '',
+        newDrink: '',
+        isWeatherspoons: false,
+        beerGarden: false,
+        sports: false
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
@@ -100,7 +104,11 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
             },
             type: '',
             mapbox_id: '',
-            date: ''
+            date: '',
+            newDrink: '',
+            isWeatherspoons: false,
+            beerGarden: false,
+            sports: false
         })
     }
     setLoader(false)
@@ -123,7 +131,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
     <div className={`submit ${openMenu ? 'open-menu' : ''} `}>
         <div className={`dropdown ${openMenu ? 'open-menu' : ''} `} onClick={() => openCloseMenu(!openMenu)}>
         <h2>Submit a pint</h2>
-        <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} />
+        {/* <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} /> */}
         </div>
         <form>
             <label>
@@ -149,14 +157,14 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         <label>
             Drink:
             <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input text-black' required>
-            <option value="none" selected disabled hidden>Select an drink</option> 
+            <option value="none" disabled hidden>Select an drink</option> 
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
                 return <option key={beer.label} value={beer.label}>{beer.label}</option>
             })}
         </select>
         <label>
             If your drink is not listed add it here:
-            <input type='text' className='submit-price input text-black' onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
+            <input type='text' className='submit-price input text-black' onChange={(e) => setSubmitData((prev) => ({ ...prev, newDrink: e.target.value }))} />
         </label>
         </label>
         <p>Select any that apply</p>
@@ -165,11 +173,11 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
             Is this pub a Weatherspoons?
         </label>
         <label className='check-box-labels'>
-            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
+            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, beerGarden: e.target.checked }))} />
             Beer Garden?
         </label>
         <label className='check-box-labels'>
-            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
+            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, sports: e.target.checked }))} />
             Sports?
         </label>
         <button className='btn blue' onClick={postData}>Submit</button>

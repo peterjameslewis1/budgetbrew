@@ -44,7 +44,7 @@ const MapboxMap: React.FC<{ filteredResults: SubmitData[] }> = ({ filteredResult
         bearing: 0,
         pitch: 0
       }}
-      style={{width: '100%', height: 400}}
+      style={{width: '100%', height: 400, marginTop: '10px'}}
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
        {pins}

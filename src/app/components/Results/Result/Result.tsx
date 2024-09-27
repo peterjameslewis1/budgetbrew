@@ -22,6 +22,7 @@ export default function Result( { name, borough, full_address, address, drink, p
         </div>
         { name && 
           <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${name.replace(' ', '+')},${full_address}`} className='directions'>
+            Directions
             <FontAwesomeIcon icon={faLocationPin} />
           </Link>
         }

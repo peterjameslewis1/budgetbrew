@@ -1,7 +1,6 @@
 "use client"
 require('dotenv').config()
-import { useRef, useState , useEffect} from 'react'
-import React from 'react'
+import { useRef, useState , useEffect, useMemo } from 'react'
 import Submit from '../Submit/Submit'
 import { SubmitData } from '../../types/Types'
 import Results from '../../components/Results/Results'
@@ -10,6 +9,7 @@ import { faMagnifyingGlass, faSort, faArrowRight } from '@fortawesome/free-solid
 import Filterbox from '../Filterbox/Filterbox'
 import MapboxMap from '../MapboxMap/MapboxMap'
 import sort from '../../utils/sort'
+import Result from '../Results/Result/Result'
 
 
 const defaultSortChoice = 'Newest'
@@ -27,12 +27,21 @@ export default function Home() {
     const [showMap, setShowMap] = useState<boolean>(false)
     const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
+    // Calculating the cheapest pint result
+    const cheapestPint = useMemo(() => {
+      if (allResults.length === 0) return null
+      return allResults.reduce((accumilator: SubmitData, currValue: SubmitData): SubmitData => {
+        return +accumilator?.price < +currValue.price ? accumilator : currValue
+      })
+    },[allResults])
+
+    console.log('cheapestPint', cheapestPint)
+
     useEffect(() => {
       const initialFetch = async () => {
         const response = await fetch('/api')
         const posts: { status: number, data: SubmitData[] } = await response.json()
         const { data = [] }: { data: SubmitData[] } = posts
-        console.log(data)
         if (data.length > 0) {
           const sortByNewest: SubmitData[] | [] = sort<SubmitData>(defaultSortChoice, data)
           setFilteredResults(sortByNewest)
@@ -80,6 +89,10 @@ export default function Home() {
             {/* <a href='mailto:peterjameslewis4@hotmail.com'>Feedback</a>
             <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a> */}
         </div>
+       <div className='cheapest-pint-result'>
+        <h2>Cheapest Pint Submitted</h2>
+       <Result {...cheapestPint} />
+       </div>
         <Submit setFilteredResults={setFilteredResults} />
         <div className='filter-bar'>
             <div className='display-style'>

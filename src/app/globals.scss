@@ -14,6 +14,68 @@ $secondary-font-color: #a3a3a3;
   margin: 0;
 }
 
+.cheapest-pint-result {
+  margin-top: 30px;
+  width: 100%;
+  h2 {
+    font-size: 22px;
+  }
+}
+
+.pub-wrapper {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 7px;
+  background: $secondary-color;
+
+  .borough {
+    font-size: 13px;
+    display: flex;
+    color: $secondary-font-color;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 300;
+  }
+  .pub {
+    display: flex;
+    justify-content: space-between;
+    .name-location {
+      .name {
+        font-weight: 300;
+        font-size: 22px;
+      }
+    }
+    .directions { 
+      height: fit-content;
+      display: flex;
+      align-items: center;
+      text-decoration: underline;
+      font-size: 14px;
+
+      svg {
+        color: #ed6262;
+        margin: 5px;
+        font-size: 22px;
+      }
+    }
+  }
+  .price {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span {
+      font-weight: 400;
+      font-size: 24px;
+    }
+    .drink {
+      font-weight: 300;
+      font-size: 20px;
+    }
+  }
+}
+
 html,
 body {
   max-width: 100vw;
@@ -318,6 +380,9 @@ body {
             border-radius: 7px;
             -webkit-appearance: none;
             appearance: none;
+            &::placeholder {
+              color: black;
+            }
           }
           input::-webkit-outer-spin-button,
           input::-webkit-inner-spin-button {
@@ -357,56 +422,6 @@ body {
           padding: 0;
           height: 500px;
           overflow: scroll;
-
-          .pub-wrapper {
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            border-radius: 7px;
-            background: $secondary-color;
-            .pub {
-              display: flex;
-              justify-content: space-between;
-              .name-location {
-                .name {
-                  font-weight: 300;
-                  font-size: 25px;
-                }
-                .borough {
-                  font-size: 13px;
-                  display: flex;
-                  color: $secondary-font-color;
-                  align-items: center;
-                }
-              }
-              .directions { 
-                height: fit-content;
-                display: flex;
-                align-items: center;
-                text-decoration: underline;
-
-                svg {
-                  color: #ed6262;
-                  margin: 5px;
-                  font-size: 22px;
-                }
-              }
-            }
-            .price {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              span {
-                font-weight: 400;
-                font-size: 24px;
-              }
-              .drink {
-                font-weight: 300;
-                font-size: 20px;
-              }
-            }
-          }
         }
       }
       .mapboxgl-popup-content {

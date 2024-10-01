@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
-import beers from '../../beers'
+import beers from '../../beers.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus,faCheck } from '@fortawesome/free-solid-svg-icons'
 import Loader from '../Loader/Loader'
@@ -36,7 +36,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         type: '',
         mapbox_id: '',
         date: '',
-        newDrink: '',
+        newPub: '',
         isWeatherspoons: false,
         beerGarden: false,
         sports: false
@@ -62,17 +62,21 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
          
     }
     // sorting alphabetically
-    const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
+    const sortedBeers = beers.sort((a:string, b:string) => a.localeCompare(b))
     // Filtering duplicates
     const filteredDuplicates = sortedBeers.filter(
     (obj, index) =>
     sortedBeers.findIndex(
-        (item) => item.label === obj.label && item.value === obj.value
+        (item) => item === obj && item === obj
       ) === index
   )
 
-  const postData = async () => {
+  const postData = async (e) => {
+    try {
+    console.log(e)
+    e.preventDefault();
     if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')
+        console.log('submitData', submitData)
     priceValidation(submitData.price)
     if (!!errorMessage) return
     setLoader(true)
@@ -105,7 +109,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
             type: '',
             mapbox_id: '',
             date: '',
-            newDrink: '',
+            newPub: '',
             isWeatherspoons: false,
             beerGarden: false,
             sports: false
@@ -113,6 +117,9 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
     }
     setLoader(false)
     return setErrorMessage('We had trouble saving your post... Have a pint and let us sort it out!')
+} catch (e) {
+    console.log('Error', e)
+}
   }
   const openCloseMenu = (setTo: boolean) => {
     setOpenMenu(setTo)
@@ -156,10 +163,10 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         </label>
         <label>
             Drink:
-            <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input text-black' required>
-            <option value="none" disabled hidden>Select an drink</option> 
+            <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} className='submit-drink input text-black' required>
+            <option value="none" disabled>Select an drink</option> 
             { filteredDuplicates.length && filteredDuplicates.map((beer) => {
-                return <option key={beer.label} value={beer.label}>{beer.label}</option>
+                return <option key={beer} value={beer}>{beer}</option>
             })}
         </select>
         <label>

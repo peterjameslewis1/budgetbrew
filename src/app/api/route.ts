@@ -1,13 +1,13 @@
 require('dotenv').config()
 import PubModel from "../../../models/index";
-import {NextResponse, NextRequest} from "next/server";
-const {MongoClient} = require("mongodb");
+import { NextResponse, NextRequest } from "next/server";
+const { MongoClient } = require("mongodb");
 const collectionName = process.env.NEXT_PUBLIC_COLLECTION_NAME;
+const fs = require('fs')
 
 let cachedDb: boolean = false;
 const connectToDb = async () => {
   if (cachedDb) {
-    console.log(cachedDb)
     return cachedDb;
   }
   try {
@@ -21,10 +21,9 @@ const connectToDb = async () => {
   }
 };
 
-export async function POST(req: NextRequest) {
-  // if (!res.ok || !res.body) return;
+export async function POST(req: NextRequest, res: NextResponse) {
+  if (!res.ok || !res.body) return;
   try {
-    // Connect to db
     const db = await connectToDb();
 
     // Collection reference (pubs)
@@ -32,6 +31,22 @@ export async function POST(req: NextRequest) {
 
     // Creating pub data
     const body = await req.json();
+    if (body.newDrink) {
+      await fs.writeFile('src/app/newBeers.json', JSON.stringify(body.newDrink), (err: Error) => {
+        if (err) {
+          console.error('Error writing file:', err);
+          return NextResponse.json({
+            error: 500,
+            message: "Something went wrong.",
+            status: 500
+          });
+        } else {
+          console.log('File successfully written!');
+        }
+      })
+    }
+
+    // Connect to db
     const pub = new PubModel({
       name: body.name,
       price: body.price,
@@ -47,12 +62,14 @@ export async function POST(req: NextRequest) {
     const savePub = await collection.insertOne(pub);
     console.log('savePub', savePub)
     if (!savePub) {
-      return NextResponse.json({status: 500, msg: "Not Saved", data: [] });
+      return NextResponse.json({ status: 500, msg: "Not Saved", data: [] });
     }
+
     const refetchData = await collection.find();
     const updatedData = await refetchData.toArray();
-    return NextResponse.json({status: 200, msg: "Saved", data: updatedData});
-  } catch (error) {
+    return NextResponse.json({ status: 200, msg: "Saved", data: updatedData });
+  }
+  catch (error) {
     console.log("error", error);
     return NextResponse.json({
       error: 500,
@@ -60,6 +77,8 @@ export async function POST(req: NextRequest) {
     });
   }
 }
+
+
 export async function GET() {
   try {
     console.log('GET request')
@@ -67,17 +86,17 @@ export async function GET() {
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");
     if (!db) {
-      return NextResponse.json({status: 500, msg: "Error establishing a database connection.", data: [] });
+      return NextResponse.json({ status: 500, msg: "Error establishing a database connection.", data: [] });
     }
     // Collection reference (pubs)
     const collection = await db.collection("pubs");
     // Get all documents
     const pubs = collection.find();
     if (!pubs) {
-      return NextResponse.json({status: 502, msg: "Server cannot provide data at this time.", data: [] });
+      return NextResponse.json({ status: 502, msg: "Server cannot provide data at this time.", data: [] });
     }
     const json = await pubs.toArray();
-    return NextResponse.json({status: 200, message: 'Success', data: json});
+    return NextResponse.json({ status: 200, message: 'Success', data: json });
   } catch (error) {
     return NextResponse.json({
       code: 500,

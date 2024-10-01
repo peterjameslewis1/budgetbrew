@@ -10,8 +10,6 @@ import Filterbox from '../Filterbox/Filterbox'
 import MapboxMap from '../MapboxMap/MapboxMap'
 import sort from '../../utils/sort'
 import Result from '../Results/Result/Result'
-import ResultWithInput from '../resultWithInput/ResultWithInput'
-
 
 const defaultSortChoice = 'Newest'
 const sortChoices = [

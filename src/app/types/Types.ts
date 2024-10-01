@@ -23,6 +23,7 @@ export type SubmitData = {
   isWeatherspoons?: boolean;
   beerGarden?: boolean;
   sports?: boolean;
+  happyHour?: boolean;
 };
 
 export type SearchBoxRetrieveResponse = {

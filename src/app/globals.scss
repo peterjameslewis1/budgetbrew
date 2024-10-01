@@ -181,6 +181,12 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+    .results-cards {
+      display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    gap: 2%;
+    }
     header {
       display: flex;
       justify-content: space-between;
@@ -350,7 +356,8 @@ body {
         }
 
         h2 {
-          font-weight: 300;
+          font-weight: 600;
+    font-size: 26px;
         }
         form {
           p {

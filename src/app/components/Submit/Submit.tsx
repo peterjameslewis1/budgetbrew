@@ -6,10 +6,6 @@ import beers from '../../beers.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus,faCheck } from '@fortawesome/free-solid-svg-icons'
 import Loader from '../Loader/Loader'
-type Beers = {
-    label: string;
-    value: string
-}
 
 const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
     ssr: false,
@@ -39,7 +35,8 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         newPub: '',
         isWeatherspoons: false,
         beerGarden: false,
-        sports: false
+        sports: false,
+        happyHour: false
     })
 
     const retireve  = (res: SearchBoxRetrieveResponse ) => {
@@ -112,7 +109,8 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
             newPub: '',
             isWeatherspoons: false,
             beerGarden: false,
-            sports: false
+            sports: false,
+            happyHour: false
         })
     }
     setLoader(false)
@@ -186,6 +184,10 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         <label className='check-box-labels'>
             <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, sports: e.target.checked }))} />
             Sports?
+        </label>
+        <label className='check-box-labels'>
+            <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, happyHour: e.target.checked }))} />
+            Happy Hour?
         </label>
         <button className='btn blue' onClick={postData}>Submit</button>
         <div className='status'>

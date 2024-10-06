@@ -21,7 +21,9 @@ $secondary-font-color: #a3a3a3;
     font-size: 22px;
   }
 }
-
+.mapboxgl-map {
+  margin-bottom: 20px;
+}
 .pub-wrapper {
   padding: 10px;
   display: flex;
@@ -54,8 +56,11 @@ $secondary-font-color: #a3a3a3;
       height: fit-content;
       display: flex;
       align-items: center;
-      text-decoration: underline;
+      background: #57b66a;
       font-size: 14px;
+      border-radius: 7px;
+      font-size: 14px;
+      padding: 8px;
 
       svg {
         color: #ed6262;
@@ -72,6 +77,7 @@ $secondary-font-color: #a3a3a3;
     span {
       font-weight: 400;
       font-size: 24px;
+      color: white;
     }
     .drink {
       font-weight: 300;
@@ -290,7 +296,7 @@ body {
             display: flex;
             justify-content: center;
             color: $ternary-color;
-            flex: 0 1 20%;
+            flex: 0 1 15%;
             text-align: center;
           }
         }

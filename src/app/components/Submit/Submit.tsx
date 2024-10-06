@@ -162,15 +162,15 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 <label>
                     Drink:
                     <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }))} className='submit-drink input text-black' required>
-                        <option value="none" disabled>Select an drink</option>
+                        <option value="" selected disabled>Select an drink</option>
                         {filteredDuplicates.length && filteredDuplicates.map((beer) => {
                             return <option key={beer} value={beer}>{beer}</option>
                         })}
                     </select>
-                    <label>
+                    {/* <label>
                         If your drink is not listed add it here:
                         <input type='text' className='submit-price input text-black' onChange={(e) => setSubmitData((prev) => ({ ...prev, newDrink: e.target.value }))} />
-                    </label>
+                    </label> */}
                 </label>
                 <p>Select any that apply</p>
                 <label className='check-box-labels'>

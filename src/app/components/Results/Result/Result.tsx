@@ -24,7 +24,7 @@ export default function Result({ name, borough, full_address, address, drink, pr
         {name &&
           <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${name.replace(' ', '+')},${full_address}`} className='directions'>
             Directions
-            <FontAwesomeIcon icon={faLocationPin} />
+            {/* <FontAwesomeIcon icon={faLocationPin} /> */}
           </Link>
         }
       </div>
@@ -33,7 +33,7 @@ export default function Result({ name, borough, full_address, address, drink, pr
         <h3 className='drink'>{drink}</h3>
         <span>£{price}</span>
       </div>
-      <span>{date}</span>
+      <span>{postDate}</span>
     </li>
   )
 }

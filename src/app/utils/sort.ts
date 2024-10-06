@@ -1,4 +1,4 @@
-const sortResults = <T extends { price: string, name: string, drink: string, date: Date | string }>(text: string, data: T[]) => {
+const sortResults = <T extends { price: string, name: string, drink: string, date: Date | null }>(text: string, data: T[]) => {
   if (text === 'Price - Highest') {
       return data.sort((a: T, b: T) => Number(b.price) - Number(a.price))
   } else if (text === 'Price - Lowest') {

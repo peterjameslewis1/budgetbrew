@@ -41,6 +41,18 @@ const post = new mongoose.Schema({
   date: {
     type: Date,
   },
+  newPub: {
+    type: String,
+  },
+  isWeatherspoons: {
+    type: Boolean
+  },
+  beerGarden: {
+    type: Boolean
+  },
+  sports: {
+    type: Boolean
+  }
 });
 
 const PubModel = mongoose.models.PubModel || mongoose.model("PubModel", post);

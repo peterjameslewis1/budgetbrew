@@ -1,20 +1,16 @@
 "use client"
-import React, { useState } from 'react'
+import React, { EventHandler, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
-import beers from '../../beers'
+import beers from '../../beers.json'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus,faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faCheck } from '@fortawesome/free-solid-svg-icons'
 import Loader from '../Loader/Loader'
-type Beers = {
-    label: string;
-    value: string
-}
 
 const DynamicSearchBox = dynamic(() => import('../SearchBox/SearchBoxInput'), {
     ssr: false,
-  })
-  
+})
+
 
 export default function Submit({ setFilteredResults }: { setFilteredResults: Function }) {
     const [openMenu, setOpenMenu] = useState<boolean>(false)
@@ -35,10 +31,15 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         },
         type: '',
         mapbox_id: '',
-        date: ''
+        date: null,
+        newPub: '',
+        isWeatherspoons: false,
+        beerGarden: false,
+        sports: false,
+        happyHour: false
     })
 
-    const retireve  = (res: SearchBoxRetrieveResponse ) => {
+    const retireve = (res: SearchBoxRetrieveResponse) => {
         if ('features' in res) {
             const { name, full_address, coordinates, address, maki, context, mapbox_id } = res.features[0].properties
             setSubmitData({
@@ -54,114 +55,151 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 type: maki,
                 mapbox_id,
             })
-        } 
-         
+        }
+
     }
     // sorting alphabetically
-    const sortedBeers = beers.sort((a:Beers, b:Beers) => a.label.localeCompare(b.label))
+    const sortedBeers = beers.sort((a: string, b: string) => a.localeCompare(b))
     // Filtering duplicates
     const filteredDuplicates = sortedBeers.filter(
-    (obj, index) =>
-    sortedBeers.findIndex(
-        (item) => item.label === obj.label && item.value === obj.value
-      ) === index
-  )
+        (obj, index) =>
+            sortedBeers.findIndex(
+                (item) => item === obj && item === obj
+            ) === index
+    )
 
-  const postData = async () => {
-    if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')
-    priceValidation(submitData.price)
-    if (!!errorMessage) return
-    setLoader(true)
-    const response = await fetch('/api', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        mode: "cors",
-        body: JSON.stringify({ ...submitData, date: Date.now() })
-    })
-    const { data, status }: { data: SubmitData[], status: number } = await response.json()
-    if (status === 200) {
-        setLoader(false)
-        setErrorMessage('')
-        setSuccessMessage('Saved!')
-        setFilteredResults(data)
-        return setSubmitData({
-            _id: '',
-            name: '',
-            price: '',
-            drink: '',
-            full_address: '',
-            address: '',
-            borough: '',
-            coordinates: {
-                lat: 0,
-                lng: 0
-            },
-            type: '',
-            mapbox_id: '',
-            date: ''
-        })
+    const postData = async (e: React.FormEvent) => {
+        try {
+            console.log(e)
+            e.preventDefault();
+            if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')
+            console.log('submitData', submitData)
+            priceValidation(submitData.price)
+            if (!!errorMessage) return
+            setLoader(true)
+            const response = await fetch('/api', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                mode: "cors",
+                body: JSON.stringify({ ...submitData, date: Date.now() })
+            })
+            const { data, status }: { data: SubmitData[], status: number } = await response.json()
+            if (status === 200) {
+                setLoader(false)
+                setErrorMessage('')
+                setSuccessMessage('Saved!')
+                setFilteredResults(data)
+                return setSubmitData({
+                    _id: '',
+                    name: '',
+                    price: '',
+                    drink: '',
+                    full_address: '',
+                    address: '',
+                    borough: '',
+                    coordinates: {
+                        lat: 0,
+                        lng: 0
+                    },
+                    type: '',
+                    mapbox_id: '',
+                    date: null,
+                    newPub: '',
+                    isWeatherspoons: false,
+                    beerGarden: false,
+                    sports: false,
+                    happyHour: false
+                })
+            }
+            setLoader(false)
+            return setErrorMessage('We had trouble saving your post... Have a pint and let us sort it out!')
+        } catch (e) {
+            console.log('Error', e)
+        }
     }
-    setLoader(false)
-    return setErrorMessage('We had trouble saving your post... Have a pint and let us sort it out!')
-  }
-  const openCloseMenu = (setTo: boolean) => {
-    setOpenMenu(setTo)
-    setLoader(false)
-    setSuccessMessage('')
-    return setErrorMessage('')
-  }
+    const openCloseMenu = (setTo: boolean) => {
+        setOpenMenu(setTo)
+        setLoader(false)
+        setSuccessMessage('')
+        return setErrorMessage('')
+    }
 
-  const priceValidation = (price: string) => {
-    if (price.includes('£')) price.replace('£', '')
-    const value = Number(price)
-    if (value > 20) return setErrorMessage('Price must be £20 or below')
-    return setErrorMessage('')
-  }
-  return (
-    <div className={`submit ${openMenu ? 'open-menu' : ''} `}>
-        <div className={`dropdown ${openMenu ? 'open-menu' : ''} `} onClick={() => openCloseMenu(!openMenu)}>
-        <h2>Submit a drink</h2>
-        <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} />
+    const priceValidation = (price: string) => {
+        if (price.includes('£')) price.replace('£', '')
+        const value = Number(price)
+        if (value > 20) return setErrorMessage('Price must be £20 or below')
+        return setErrorMessage('')
+    }
+    return (
+        <div className={`submit ${openMenu ? 'open-menu' : ''} `}>
+            <div className={`dropdown ${openMenu ? 'open-menu' : ''} `} onClick={() => openCloseMenu(!openMenu)}>
+                <h2>Submit a pint</h2>
+                {/* <FontAwesomeIcon icon={faPlus} className={`${openMenu && 'rotate'}`} /> */}
+            </div>
+            <form>
+                <label>
+                    Search Pub:
+                    <DynamicSearchBox
+                        accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
+                        options={{
+                            language: 'en',
+                            country: 'GB',
+                            poi_category: "",
+                            limit: 10,
+                        }}
+                        placeholder={"Search..."}
+                        value={submitData.name}
+                        onChange={() => { }}
+                        onRetrieve={retireve}
+                    />
+                </label>
+
+                <label>Price:
+                    <input placeholder='£0.00' max={20} maxLength={5} required className='submit-price input text-black' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
+                </label>
+                <label>
+                    Drink:
+                    <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }))} className='submit-drink input text-black' required>
+                        <option value="" selected disabled>Select an drink</option>
+                        {filteredDuplicates.length && filteredDuplicates.map((beer) => {
+                            return <option key={beer} value={beer}>{beer}</option>
+                        })}
+                    </select>
+                    {/* <label>
+                        If your drink is not listed add it here:
+                        <input type='text' className='submit-price input text-black' onChange={(e) => setSubmitData((prev) => ({ ...prev, newDrink: e.target.value }))} />
+                    </label> */}
+                </label>
+                <p>Select any that apply</p>
+                <label className='check-box-labels'>
+                    <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
+                    Is this pub a Weatherspoons?
+                </label>
+                <label className='check-box-labels'>
+                    <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, beerGarden: e.target.checked }))} />
+                    Beer Garden?
+                </label>
+                <label className='check-box-labels'>
+                    <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, sports: e.target.checked }))} />
+                    Sports?
+                </label>
+                <label className='check-box-labels'>
+                    <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, happyHour: e.target.checked }))} />
+                    Happy Hour?
+                </label>
+                <button type='submit' className='btn blue' onClick={postData}>Submit</button>
+                <div className='status'>
+                    {loader && <p><Loader /></p>}
+                    {!loader && errorMessage && (
+                        <p className='error'>{errorMessage}</p>
+                    )}
+                    {successMessage && (
+                        <p className='success'>{successMessage}! <FontAwesomeIcon icon={faCheck} style={{ color: "#07df5a" }} /></p>
+                    )}
+                </div>
+            </form>
         </div>
-        <form>
-            <label>Search Pub*</label>
-            <DynamicSearchBox 
-                accessToken={process.env.NEXT_PUBLIC_MAPBOX_API_KEY || ''}
-                options={{
-                    language: 'en',
-                    country: 'GB',
-                    poi_category: "pub,bar,nightlife",
-                    limit: 10,
-                }}
-                placeholder={"Search..."}
-                value={submitData.name}
-                onChange={() => {}}
-                onRetrieve={retireve}
-                />
-        <label className='is-weatherspoons-label'>Is this pub a Weatherspoons: </label>
-        <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, isWeatherspoons: e.target.checked }))} />
-        <label>Price*</label>
-        <input placeholder='0.00' max={20} maxLength={5} required className='submit-price input text-black' type="number" onChange={(e) => setSubmitData((prev) => ({ ...prev, price: e.target.value }))} />
-        <label>Drink*</label>
-        <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }) )} defaultValue={filteredDuplicates[0].label} className='submit-drink input text-black' required>
-            <option value="none" selected disabled hidden>Select an drink</option> 
-            { filteredDuplicates.length && filteredDuplicates.map((beer) => {
-                return <option key={beer.label} value={beer.label}>{beer.label}</option>
-            })}
-        </select>
-        <button className='btn blue' onClick={postData}>Submit</button>
-        <div className='status'>
-            { loader && <p><Loader /></p>}
-            { !loader && errorMessage && (
-                <p className='error'>{errorMessage}</p>
-            )}
-            { successMessage && (
-                <p className='success'>{successMessage}! <FontAwesomeIcon icon={faCheck} style={{color: "#07df5a"}} /></p>
-            )}
-        </div>
-        </form>
-    </div>
-  )
+    )
 }

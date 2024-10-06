@@ -1,5 +1,5 @@
 export type SubmitData = {
-  _id: string;
+  _id?: string;
   name: string;
   price: string;
   drink: string;
@@ -11,7 +11,7 @@ export type SubmitData = {
     lng: number;
   };
   type: string;
-  date: Date | string;
+  date: Date | null;
   content?: {
     locality: string;
   };
@@ -19,6 +19,11 @@ export type SubmitData = {
   context?: {
     locality: {name: string};
   };
+  newPub: string;
+  isWeatherspoons?: boolean;
+  beerGarden?: boolean;
+  sports?: boolean;
+  happyHour?: boolean;
 };
 
 export type SearchBoxRetrieveResponse = {

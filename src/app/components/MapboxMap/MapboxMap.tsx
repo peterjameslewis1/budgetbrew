@@ -2,7 +2,7 @@
 require('dotenv').config()
 const apiKey = process.env.NEXT_PUBLIC_MAPBOX_API_KEY
 import React, { useState, useMemo } from 'react';
-import Map, {Marker, Popup} from 'react-map-gl';
+import Map, {Marker, Popup, GeolocateControl} from 'react-map-gl';
 import Pin from '../Pin/Pin'
 import { SubmitData } from '@/app/types/Types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -44,9 +44,10 @@ const MapboxMap: React.FC<{ filteredResults: SubmitData[] }> = ({ filteredResult
         bearing: 0,
         pitch: 0
       }}
-      style={{width: '100%', height: 400}}
+      style={{width: '100%', height: 400, marginTop: '10px'}}
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
+        <GeolocateControl position="top-left" />
        {pins}
        {showPopup && popupInfo && (
           <Popup

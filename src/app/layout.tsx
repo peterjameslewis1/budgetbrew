@@ -15,12 +15,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-    return (
-      <html lang="en">
-        <Head>
+  return (
+    <html lang="en">
+      <Head>
         <link href='https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css' rel='stylesheet' />
-        </Head>
-        <body className={inter.className}>{children}</body>
-      </html>
-    )
-  }
+      </Head>
+      <body className={inter.className}>{children}</body>
+    </html>
+  )
+}

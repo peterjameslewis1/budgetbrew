@@ -146,7 +146,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                         options={{
                             language: 'en',
                             country: 'GB',
-                            poi_category: "pub,bar,nightlife",
+                            poi_category: "",
                             limit: 10,
                         }}
                         placeholder={"Search..."}

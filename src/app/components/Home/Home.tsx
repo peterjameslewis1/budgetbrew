@@ -28,10 +28,11 @@ export default function Home() {
 
   // Calculating the cheapest pint result
   const cheapestPint = useMemo(() => {
-    if (allResults.length === 0) return null
-    return allResults.reduce((accumilator: SubmitData, currValue: SubmitData): SubmitData => {
-      return +accumilator?.price < +currValue.price ? accumilator : currValue
-    })
+    if (allResults.length > 0) {
+      return allResults.reduce((accumilator, currValue) => {
+        return +accumilator?.price < +currValue.price ? accumilator : currValue
+      })
+    }
   }, [allResults])
 
   console.log('cheapestPint', cheapestPint)
@@ -88,10 +89,12 @@ export default function Home() {
         {/* <a href='mailto:peterjameslewis4@hotmail.com'>Feedback</a>
             <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a> */}
       </div>
-      <div className='cheapest-pint-result'>
-        <h2>Cheapest Pint Submitted</h2>
-        <Result {...cheapestPint} />
-      </div>
+      {cheapestPint && (
+        <div className='cheapest-pint-result'>
+          <h2>Cheapest Pint Submitted</h2>
+          <Result {...cheapestPint} />
+        </div>
+      )}
       <Submit setFilteredResults={setFilteredResults} />
       <div className='filter-bar'>
         <div className='display-style'>

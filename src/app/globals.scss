@@ -28,6 +28,10 @@ $secondary-font-color: #a3a3a3;
   flex-direction: column;
   border-radius: 7px;
   background: $secondary-color;
+  span {
+    font-size: 10px;
+    color: grey;
+  }
 
   .borough {
     font-size: 13px;

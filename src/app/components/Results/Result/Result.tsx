@@ -20,6 +20,7 @@ export default function Result({ name, borough, full_address, address, drink, pr
       <div className='pub'>
         <div className='name-location'>
           <h2 className='name'>{name}</h2>
+          <p className='borough'><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{borough ? borough : address} - {address}</p>
         </div>
         {name &&
           <Link target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${name.replace(' ', '+')},${full_address}`} className='directions'>
@@ -28,7 +29,6 @@ export default function Result({ name, borough, full_address, address, drink, pr
           </Link>
         }
       </div>
-      <p className='borough'><FontAwesomeIcon id="location-pin" icon={faLocationPin} />{borough ? borough : address} - {address}</p>
       <div className='price'>
         <h3 className='drink'>{drink}</h3>
         <span>£{price}</span>

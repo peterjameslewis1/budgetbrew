@@ -34,15 +34,6 @@ $secondary-font-color: #a3a3a3;
     font-size: 10px;
     color: grey;
   }
-
-  .borough {
-    font-size: 13px;
-    display: flex;
-    color: $secondary-font-color;
-    align-items: center;
-    font-size: 14px;
-    font-weight: 300;
-  }
   .pub {
     display: flex;
     justify-content: space-between;
@@ -51,16 +42,23 @@ $secondary-font-color: #a3a3a3;
         font-weight: 300;
         font-size: 22px;
       }
+      .borough {
+        font-size: 13px;
+        display: flex;
+        color: $secondary-font-color;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 500;
+      }
     }
     .directions { 
       height: fit-content;
       display: flex;
       align-items: center;
       background: #57b66a;
-      font-size: 14px;
       border-radius: 7px;
-      font-size: 14px;
-      padding: 8px;
+      font-size: 12px;
+      padding: 7px;
 
       svg {
         color: #ed6262;

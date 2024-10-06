@@ -1,6 +1,6 @@
 "use client"
 require('dotenv').config()
-import { useRef, useState, useEffect, useMemo } from 'react'
+import React, { useRef, useState, useEffect, useMemo } from 'react'
 import Submit from '../Submit/Submit'
 import { SubmitData } from '../../types/Types'
 import Results from '../../components/Results/Results'
@@ -66,12 +66,12 @@ export default function Home() {
     }
   }, [filterMenuOpen])
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden"
-    return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [])
+  // useEffect(() => {
+  //   document.body.style.overflow = "hidden"
+  //   return () => {
+  //     document.body.style.overflow = "auto"
+  //   }
+  // }, [])
 
   const handleFilterChange = (e: { target: { value: string } }) => {
     if (e.target.value === '') {

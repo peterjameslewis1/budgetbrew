@@ -1,4 +1,5 @@
 "use client"
+import React, { FormEvent, useState } from 'react'
 import React, { EventHandler, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
@@ -68,7 +69,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
             ) === index
     )
 
-    const postData = async (e: React.FormEvent) => {
+    const postData = async (e: FormEvent<HTMLFormElement>) => {
         try {
             console.log(e)
             e.preventDefault();
@@ -105,7 +106,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                     },
                     type: '',
                     mapbox_id: '',
-                    date: null,
+                    date: '',
                     newPub: '',
                     isWeatherspoons: false,
                     beerGarden: false,

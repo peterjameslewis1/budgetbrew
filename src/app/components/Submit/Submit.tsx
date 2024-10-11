@@ -189,7 +189,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                     <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, happyHour: e.target.checked }))} />
                     Happy Hour?
                 </label>
-                <button className='btn blue' onClick={postData}>Submit</button>
+                <button className='btn blue' type='submit' onClick={postData}>Submit</button>
                 <div className='status'>
                     {loader && <p><Loader /></p>}
                     {!loader && errorMessage && (

@@ -1,6 +1,6 @@
 "use client"
 require('dotenv').config()
-import { useRef, useState, useEffect, useMemo } from 'react'
+import React, { useRef, useState, useEffect, useMemo } from 'react'
 import Submit from '../Submit/Submit'
 import { SubmitData } from '../../types/Types'
 import Results from '../../components/Results/Results'
@@ -27,11 +27,12 @@ export default function Home() {
   const [filterMenuOpen, setFilterMenuOpen] = useState<boolean>(false)
 
   // Calculating the cheapest pint result
-  const cheapestPint: SubmitData | null = useMemo(() => {
-    if (allResults.length === 0) return null
-    return allResults.reduce((accumilator: SubmitData, currValue: SubmitData): SubmitData => {
-      return +accumilator?.price < +currValue.price ? accumilator : currValue || null
-    })
+  const cheapestPint = useMemo(() => {
+    if (allResults.length > 0) {
+      return allResults.reduce((accumilator, currValue) => {
+        return +accumilator?.price < +currValue.price ? accumilator : currValue
+      })
+    }
   }, [allResults])
 
   console.log('cheapestPint', cheapestPint)
@@ -65,12 +66,12 @@ export default function Home() {
     }
   }, [filterMenuOpen])
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden"
-    return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [])
+  // useEffect(() => {
+  //   document.body.style.overflow = "hidden"
+  //   return () => {
+  //     document.body.style.overflow = "auto"
+  //   }
+  // }, [])
 
   const handleFilterChange = (e: { target: { value: string } }) => {
     if (e.target.value === '') {
@@ -88,13 +89,12 @@ export default function Home() {
         {/* <a href='mailto:peterjameslewis4@hotmail.com'>Feedback</a>
             <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a> */}
       </div>
-      {cheapestPint !== null && (
+      {cheapestPint && (
         <div className='cheapest-pint-result'>
           <h2>Cheapest Pint Submitted</h2>
           <Result {...cheapestPint} />
         </div>
-      )
-      }
+      )}
       <Submit setFilteredResults={setFilteredResults} />
       <div className='filter-bar'>
         <div className='display-style'>

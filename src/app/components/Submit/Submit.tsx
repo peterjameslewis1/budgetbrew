@@ -1,5 +1,6 @@
 "use client"
 import React, { FormEvent, useState } from 'react'
+import React, { EventHandler, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
 import beers from '../../beers.json'
@@ -31,7 +32,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         },
         type: '',
         mapbox_id: '',
-        date: '',
+        date: null,
         newPub: '',
         isWeatherspoons: false,
         beerGarden: false,
@@ -146,7 +147,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                         options={{
                             language: 'en',
                             country: 'GB',
-                            poi_category: "pub,bar,nightlife",
+                            poi_category: "",
                             limit: 10,
                         }}
                         placeholder={"Search..."}
@@ -162,7 +163,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 <label>
                     Drink:
                     <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }))} className='submit-drink input text-black' required>
-                        <option value="none" disabled>Select an drink</option>
+                        <option value="" selected disabled>Select an drink</option>
                         {filteredDuplicates.length && filteredDuplicates.map((beer) => {
                             return <option key={beer} value={beer}>{beer}</option>
                         })}
@@ -189,7 +190,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                     <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, happyHour: e.target.checked }))} />
                     Happy Hour?
                 </label>
-                <button className='btn blue' type='submit' onClick={postData}>Submit</button>
+                <button type='submit' className='btn blue' onClick={postData}>Submit</button>
                 <div className='status'>
                     {loader && <p><Loader /></p>}
                     {!loader && errorMessage && (

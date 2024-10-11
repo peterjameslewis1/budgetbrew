@@ -11,7 +11,7 @@ export type SubmitData = {
     lng: number;
   };
   type: string;
-  date: Date | string;
+  date: string;
   content?: {
     locality: string;
   };
@@ -19,7 +19,7 @@ export type SubmitData = {
   context?: {
     locality: {name: string};
   };
-  newPub: string;
+  newPub?: string;
   isWeatherspoons?: boolean;
   beerGarden?: boolean;
   sports?: boolean;

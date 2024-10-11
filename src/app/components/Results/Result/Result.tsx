@@ -9,9 +9,9 @@ type Props = {
     address: string;
     price: string;
     drink: string;
-    date: string;
+    postDate?: string;
 }
-export default function Result( { name, borough, full_address, address, drink, price, date = '' }: Props) {
+export default function Result( { name, borough, full_address, address, drink, price, postDate = '' }: Props) {
   return (
     <li className='pub-wrapper'>
       <div className='pub'>
@@ -30,6 +30,7 @@ export default function Result( { name, borough, full_address, address, drink, p
         <h3 className='drink'>{drink}</h3>
         <span>£{price}</span>
       </div>
+      <span>{postDate}</span>
     </li>
   )
 }

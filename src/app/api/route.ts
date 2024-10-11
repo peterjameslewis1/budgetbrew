@@ -21,9 +21,10 @@ const connectToDb = async () => {
   }
 };
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  if (!res.ok || !res.body) return;
+export async function POST(req: NextRequest) {
+  console.log('Route.ts')
   try {
+    console.log('Inside try block')
     const db = await connectToDb();
 
     // Collection reference (pubs)
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     // Creating pub data
     const body = await req.json();
+    console.log('body', body)
     if (body.newDrink) {
       await fs.writeFile('src/app/newBeers.json', JSON.stringify(body.newDrink), (err: Error) => {
         if (err) {

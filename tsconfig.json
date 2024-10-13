@@ -18,7 +18,6 @@
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "ignoreBuildErrors": true,
 
     "plugins": [
       {

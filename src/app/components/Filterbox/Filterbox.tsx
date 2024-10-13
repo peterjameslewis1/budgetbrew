@@ -2,7 +2,7 @@ import { SubmitData } from '@/app/types/Types'
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import sort from '../../utils/sort'
+import sortResults from '../../utils/sort'
 import FilterboxItem from './FilterboxItem'
 
 type FilterboxProps = {
@@ -34,10 +34,10 @@ export default function Filterbox({ filterMenuOpen, filteredResults, setFilterMe
     const handleSortAndFilter = (e: React.MouseEvent<HTMLLIElement>, setterFunction: Function): void => {
         const selection = (e.target as HTMLLIElement).innerHTML
         if (sortSelection === selection) {
-            setFilteredResults(sort<SubmitData>(defaultSortChoice, filteredResults))
+            setFilteredResults(sortResults<SubmitData>(defaultSortChoice, filteredResults))
             return setterFunction(defaultSortChoice)
         }
-        setFilteredResults(sort<SubmitData>(selection, filteredResults))
+        setFilteredResults(sortResults<SubmitData>(selection, filteredResults))
         return setterFunction(selection)
     }
   return (

@@ -1,6 +1,5 @@
 "use client"
 import React, { FormEvent, useState } from 'react'
-import React, { EventHandler, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
 import beers from '../../beers.json'

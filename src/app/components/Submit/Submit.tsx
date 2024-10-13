@@ -1,5 +1,5 @@
 "use client"
-import React, { FormEvent, useState } from 'react'
+import React, { FormEvent, ButtonHTMLAttributes, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { SubmitData, SearchBoxRetrieveResponse } from '../../types/Types'
 import beers from '../../beers.json'
@@ -68,10 +68,9 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
             ) === index
     )
 
-    const postData = async (e: FormEvent<HTMLFormElement>) => {
+    const postData = async (e) => {
         try {
             console.log(e)
-            e.preventDefault();
             if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')
             console.log('submitData', submitData)
             priceValidation(submitData.price)
@@ -189,7 +188,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                     <input type="checkbox" onChange={(e) => setSubmitData((prev) => ({ ...prev, happyHour: e.target.checked }))} />
                     Happy Hour?
                 </label>
-                <button type='submit' className='btn blue' onClick={postData}>Submit</button>
+                <button className='btn blue' onClick={postData}>Submit</button>
                 <div className='status'>
                     {loader && <p><Loader /></p>}
                     {!loader && errorMessage && (

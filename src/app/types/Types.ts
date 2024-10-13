@@ -11,7 +11,7 @@ export type SubmitData = {
     lng: number;
   };
   type: string;
-  date: string;
+  date: Date | string;
   content?: {
     locality: string;
   };

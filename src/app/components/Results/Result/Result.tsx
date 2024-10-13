@@ -11,7 +11,7 @@ type ResultProps = {
   address: string;
   price: string;
   drink: string;
-  date?: Date | null;
+  date?: Date | string;
 }
 export default function Result({ name, borough, full_address, address, drink, price, date }: ResultProps) {
   const postDate = date ? moment(date).fromNow() : ''

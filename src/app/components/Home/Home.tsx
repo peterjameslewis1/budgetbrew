@@ -10,6 +10,7 @@ import Filterbox from '../Filterbox/Filterbox'
 import MapboxMap from '../MapboxMap/MapboxMap'
 import sort from '../../utils/sort'
 import Result from '../Results/Result/Result'
+import CheapestPintOf from '../CheapestPintOf/CheapestPintOf'
 
 const defaultSortChoice = 'Newest'
 const sortChoices = [
@@ -95,6 +96,8 @@ export default function Home() {
           <Result {...cheapestPint} />
         </div>
       )}
+        <CheapestPintOf results={filteredResults}  />
+      
       <Submit setFilteredResults={setFilteredResults} />
       <div className='filter-bar'>
         <div className='display-style'>

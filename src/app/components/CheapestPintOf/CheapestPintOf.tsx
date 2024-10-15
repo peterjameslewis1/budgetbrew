@@ -23,6 +23,7 @@ const CheapestPintOf = ({ results = [] }: { results: SubmitData[] }): React.JSX.
 
   const handleCheapestPint = (event: ChangeEvent<HTMLSelectElement>) => {
     setError(false)
+    setCheapest(null)
     const drink = event.target.value
     const selected = results.filter((x) => x.drink === drink)
     if(selected.length === 0) return setError(true)

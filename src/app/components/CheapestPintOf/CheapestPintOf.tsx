@@ -16,7 +16,7 @@ interface CheapestPintOFProps {
   date?: Date | string;
 }
 
-const CheapestPintOf: React.FC = ({ results }: any): React.JSX.Element => {
+const CheapestPintOf = ({ results = [] }: { results: SubmitData[] }): React.JSX.Element => {
   const [cheapest, setCheapest] = useState<CheapestPintOFProps>(null)
   const [error, setError] = useState<boolean>(false)
   // const { name, borough, full_address, address, drink, price } = cheapest

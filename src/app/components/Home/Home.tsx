@@ -11,6 +11,7 @@ import MapboxMap from '../MapboxMap/MapboxMap'
 import sort from '../../utils/sort'
 import Result from '../Results/Result/Result'
 import CheapestPintOf from '../CheapestPintOf/CheapestPintOf'
+import LoadingSkeleton from '../Results/Result/Skeleton'
 
 const defaultSortChoice = 'Newest'
 const sortChoices = [
@@ -34,7 +35,7 @@ export default function Home() {
         return +accumilator?.price < +currValue.price ? accumilator : currValue
       })
     }
-  }, [allResults])
+  }, [allResults]) || {}
 
   console.log('cheapestPint', cheapestPint)
 
@@ -75,10 +76,13 @@ export default function Home() {
   // }, [])
 
   const handleFilterChange = (e: { target: { value: string } }) => {
+    console.log(e.target.value)
+    console.log('filteredResults', filteredResults)
     if (e.target.value === '') {
       return setFilteredResults(allResults)
     }
-    const filter = filteredResults.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
+    const filter = allResults.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
+    console.log(filter)
     return setFilteredResults(filter)
   }
 
@@ -90,14 +94,16 @@ export default function Home() {
         {/* <a href='mailto:peterjameslewis4@hotmail.com'>Feedback</a>
             <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a> */}
       </div>
-      {cheapestPint && (
+      {cheapestPint.hasOwnProperty("name") ? (
         <div className='cheapest-pint-result'>
           <h2>Cheapest Pint Submitted</h2>
-          <Result {...cheapestPint} />
+          <Result name={''} borough={''} full_address={''} address={''} price={''} drink={''} {...cheapestPint} />
         </div>
-      )}
-        <CheapestPintOf results={filteredResults}  />
-      
+      ) :
+        <LoadingSkeleton />
+      }
+      <CheapestPintOf results={filteredResults} />
+
       <Submit setFilteredResults={setFilteredResults} />
       <div className='filter-bar'>
         <div className='display-style'>

@@ -162,8 +162,8 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                     Drink:
                     <select onChange={(e) => setSubmitData((prev) => ({ ...prev, drink: e.target.value }))} className='submit-drink input text-black' required>
                         <option value="" selected disabled>Select an drink</option>
-                        {filteredDuplicates.length && filteredDuplicates.map((beer) => {
-                            return <option key={beer} value={beer}>{beer}</option>
+                        {filteredDuplicates.length && filteredDuplicates.map((beer, index) => {
+                            return <option key={beer + index} value={beer}>{beer}</option>
                         })}
                     </select>
                     {/* <label>

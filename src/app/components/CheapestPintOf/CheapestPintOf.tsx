@@ -39,8 +39,8 @@ const CheapestPintOf = ({ results = [] }: { results: SubmitData[] }): React.JSX.
       <div className='pub-wrapper'>
         <select onChange={handleCheapestPint} className='submit-drink input text-black' required>
           <option value="" selected disabled>Select an drink</option>
-          {beers.map((beer) => {
-            return <option key={beer} value={beer}>{beer}</option>
+          {beers.map((beer, index) => {
+            return <option key={beer + index} value={beer}>{beer}</option>
           })}
         </select>
         { error && <h2 className='error-message'>No submittions yet!</h2>}

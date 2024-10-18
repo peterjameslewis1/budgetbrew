@@ -69,6 +69,7 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
     )
 
     const postData = async (e) => {
+        e.preventDefault()
         try {
             console.log(e)
             if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')

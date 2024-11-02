@@ -36,7 +36,6 @@ const CheapestPintOf = ({ results = [] }: { results: SubmitData[] }): React.JSX.
   return (
     <div className='cheapest-pint-of'>
       <h2>Cheapest Pint Of:</h2>
-      <div className='pub-wrapper'>
         <select onChange={handleCheapestPint} className='submit-drink input text-black' required>
           <option value="" selected disabled>Select an drink</option>
           {beers.map((beer, index) => {
@@ -65,7 +64,6 @@ const CheapestPintOf = ({ results = [] }: { results: SubmitData[] }): React.JSX.
           </>
         )}
       </div>
-    </div >
   );
 }
 

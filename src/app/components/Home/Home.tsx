@@ -67,21 +67,11 @@ export default function Home() {
     }
   }, [filterMenuOpen])
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden"
-    return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [])
-
   const handleFilterChange = (e: { target: { value: string } }) => {
-    console.log(e.target.value)
-    console.log('filteredResults', filteredResults)
     if (e.target.value === '') {
       return setFilteredResults(allResults)
     }
     const filter = allResults.filter((post) => post.name.toLowerCase().includes(e.target.value.toLowerCase()))
-    console.log(filter)
     return setFilteredResults(filter)
   }
 

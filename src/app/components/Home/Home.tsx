@@ -12,6 +12,7 @@ import sort from '../../utils/sort'
 import Result from '../Results/Result/Result'
 import CheapestPintOf from '../CheapestPintOf/CheapestPintOf'
 import LoadingSkeleton from '../Results/Result/Skeleton'
+import beer from '@/app/beers.json'
 
 const defaultSortChoice = 'Newest'
 const sortChoices = [
@@ -36,8 +37,6 @@ export default function Home() {
       })
     }
   }, [allResults]) || {}
-
-  console.log('cheapestPint', cheapestPint)
 
   useEffect(() => {
     const initialFetch = async () => {
@@ -68,12 +67,12 @@ export default function Home() {
     }
   }, [filterMenuOpen])
 
-  // useEffect(() => {
-  //   document.body.style.overflow = "hidden"
-  //   return () => {
-  //     document.body.style.overflow = "auto"
-  //   }
-  // }, [])
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [])
 
   const handleFilterChange = (e: { target: { value: string } }) => {
     console.log(e.target.value)

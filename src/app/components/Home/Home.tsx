@@ -13,7 +13,9 @@ import Result from '../Results/Result/Result'
 import CheapestPintOf from '../CheapestPintOf/CheapestPintOf'
 import LoadingSkeleton from '../Results/Result/Skeleton'
 import beer from '@/app/beers.json'
-
+console.log('beer',beer.length)
+const noDupes = new Set(beer)
+console.log('noDupes', noDupes)
 const defaultSortChoice = 'Newest'
 const sortChoices = [
   { name: 'Newest' },

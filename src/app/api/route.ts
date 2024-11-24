@@ -7,11 +7,12 @@ const fs = require('fs')
 
 let cachedDb: boolean = false;
 const connectToDb = async () => {
+  const uri = 'mongodb+srv://peterjameslewis:Harrison1%21@cluster0.pdyn0.mongodb.net/'
   if (cachedDb) {
     return cachedDb;
   }
   try {
-    let client = new MongoClient(process.env.NEXT_PUBLIC_MONGODB_URI);
+    let client = new MongoClient(uri);
     await client.connect();
     const db = await client.db(collectionName);
     cachedDb = db;

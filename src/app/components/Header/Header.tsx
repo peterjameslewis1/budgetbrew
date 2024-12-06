@@ -5,7 +5,7 @@ import beer from '../../../../public//beer.png'
 export default function Header() {
   return (
     <header>  
-        <h1>BudgetBrews</h1>
+        <h1>PintFinder</h1>
         <Image 
         height="50"
         width="50"

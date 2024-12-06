@@ -80,7 +80,7 @@ export default function Home() {
   return (
     <main>
       <div className='intro'>
-        <p><strong>BudgetBrews</strong> is here to help you find the most affordable pubs in town.</p>
+        <p><strong>PintFinder</strong> is here to help you find the most affordable pubs in town.</p>
         <p>Please be as accurate as possible when submitting data. Your contributions are vital to our success.</p>
         {/* <a href='mailto:peterjameslewis4@hotmail.com'>Feedback</a>
             <a target="_blank" href='https://www.buymeacoffee.com/peterjamesr' >Buy me a beer <FontAwesomeIcon icon={faArrowRight} /></a> */}

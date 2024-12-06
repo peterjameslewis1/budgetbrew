@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const db = await connectToDb();
 
     // Collection reference (pubs)
-    const collection = await db.collection("pubs");
+    const collection = await db.collection("contributions");
 
     // Creating pub data
     const body = await req.json();
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       borough: body.borough,
       coordinates: body.coordinates,
       type: body.type,
-      date: body.date || ''
+      date: body.date || new Date()
     });
     // Insert the document into the specified collection
     const savePub = await collection.insertOne(pub);

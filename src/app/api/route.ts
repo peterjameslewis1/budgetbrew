@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const db = await connectToDb();
 
     // Collection reference (pubs)
-    const collection = await db.collection("pubs");
+    const collection = await db.collection("contributions");
 
     // Creating pub data
     const body = await req.json();

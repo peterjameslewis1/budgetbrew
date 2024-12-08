@@ -92,7 +92,7 @@ export async function GET() {
       return NextResponse.json({ status: 500, msg: "Error establishing a database connection.", data: [] });
     }
     // Collection reference (pubs)
-    const collection = await db.collection("pubs");
+    const collection = await db.collection("contributions");
     // Get all documents
     const pubs = collection.find();
     if (!pubs) {

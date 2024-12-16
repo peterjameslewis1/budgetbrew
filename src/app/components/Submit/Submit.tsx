@@ -101,8 +101,8 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                     address: '',
                     borough: '',
                     coordinates: {
-                        lat: 0,
-                        lng: 0
+                        latitude: 0,
+                        longitude: 0
                     },
                     type: '',
                     mapbox_id: '',

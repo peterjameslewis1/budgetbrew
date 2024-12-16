@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
 
     // Creating pub data
     const body = await req.json();
-    console.log('body', body)
     if (body.newDrink) {
       await fs.writeFile('src/app/newBeers.json', JSON.stringify(body.newDrink), (err: Error) => {
         if (err) {
@@ -63,7 +62,6 @@ export async function POST(req: NextRequest) {
     });
     // Insert the document into the specified collection
     const savePub = await collection.insertOne(pub);
-    console.log('savePub', savePub)
     if (!savePub) {
       return NextResponse.json({ status: 500, msg: "Not Saved", data: [] });
     }

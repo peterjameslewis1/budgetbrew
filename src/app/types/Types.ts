@@ -7,8 +7,8 @@ export type SubmitData = {
   address: string;
   borough: string;
   coordinates: {
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
   };
   type: string;
   date: Date | string;

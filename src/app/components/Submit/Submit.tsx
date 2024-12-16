@@ -49,8 +49,8 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
                 address,
                 borough: context?.locality?.name,
                 coordinates: {
-                    lat: coordinates.latitude,
-                    lng: coordinates.longitude
+                    latitude: coordinates.latitude,
+                    longitude: coordinates.longitude
                 },
                 type: maki,
                 mapbox_id,

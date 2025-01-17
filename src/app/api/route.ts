@@ -23,9 +23,7 @@ const connectToDb = async () => {
 };
 
 export async function POST(req: NextRequest) {
-  console.log('Route.ts')
   try {
-    console.log('Inside try block')
     const db = await connectToDb();
 
     // Collection reference (pubs)
@@ -33,21 +31,6 @@ export async function POST(req: NextRequest) {
 
     // Creating pub data
     const body = await req.json();
-    if (body.newDrink) {
-      await fs.writeFile('src/app/newBeers.json', JSON.stringify(body.newDrink), (err: Error) => {
-        if (err) {
-          console.error('Error writing file:', err);
-          return NextResponse.json({
-            error: 500,
-            message: "Something went wrong.",
-            status: 500
-          });
-        } else {
-          console.log('File successfully written!');
-        }
-      })
-    }
-
     // Connect to db
     const pub = new PubModel({
       name: body.name,
@@ -82,7 +65,6 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   try {
-    console.log('GET request')
     //Connect to db
     const db = await connectToDb();
     console.log("Successfully connected to Atlas");

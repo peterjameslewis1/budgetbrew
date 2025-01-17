@@ -95,8 +95,8 @@ export default function Home() {
       <Submit setFilteredResults={setFilteredResults} />
       <div className='filter-bar'>
         <div className='display-style'>
-          {/* <h3 id={`${showMap ? '' : 'border'}`} onClick={() => setShowMap(false)} >List</h3> */}
-          {/* <h3 id={`${showMap ? 'border' : ''}`} onClick={() => setShowMap(true)}>Map</h3> */}
+          <h3 id={`${showMap ? '' : 'border'}`} onClick={() => setShowMap(false)} >List</h3>
+          <h3 id={`${showMap ? 'border' : ''}`} onClick={() => setShowMap(true)}>Map</h3>
         </div> 
         <div className='search'>
           <div className='search-icon'>

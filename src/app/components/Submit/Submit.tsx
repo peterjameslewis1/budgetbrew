@@ -38,7 +38,6 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         sports: false,
         happyHour: false
     })
-
     const retireve = (res: SearchBoxRetrieveResponse) => {
         if ('features' in res) {
             const { name, full_address, coordinates, address, maki, context, mapbox_id } = res.features[0].properties
@@ -74,7 +73,6 @@ export default function Submit({ setFilteredResults }: { setFilteredResults: Fun
         try {
             console.log(e)
             if (!submitData.name || !submitData.price || !submitData.drink) return setErrorMessage('All fields are required.')
-            console.log('submitData', submitData)
             priceValidation(submitData.price)
             if (!!errorMessage) return
             setLoader(true)

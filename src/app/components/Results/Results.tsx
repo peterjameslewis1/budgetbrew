@@ -5,7 +5,6 @@ import Result from './Result/Result'
 import LoadingSkeleton from './Result/Skeleton';
 
 export default function Results({ posts = [] }: { posts: SubmitData[] }) {
-  console.log('posts', posts)
   return (
     <div className='results mt-4'>
       {posts.length === 0 && <LoadingSkeleton />}

@@ -12,10 +12,9 @@ import Link from 'next/link'
 const MapboxMap: React.FC<{ filteredResults: SubmitData[] }> = ({ filteredResults }) => {
   const [showPopup, setShowPopup] = useState<boolean>(false)
   const [popupInfo, setPopupInfo] = useState<SubmitData>()
-
+  
   const pins = useMemo(() => {
     return filteredResults.map((result: SubmitData) => {
-      console.log('result.coordinates.latitude', result.coordinates.latitude)
       return (
         <Marker
           key={result._id}

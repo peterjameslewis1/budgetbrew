@@ -28,7 +28,6 @@ type sortChoicesTypes = {
 export default function Filterbox({ filterMenuOpen, filteredResults, setFilterMenuOpen, setFilteredResults, defaultSortChoice, sortChoices }: FilterboxProps) {
     const [sortSelection, setSortSelection] = useState<string>(defaultSortChoice)
     // const [filterSelection, setFilterSelection] = useState<string>('')
-    console.log('sortSelection', sortSelection)
 
     // Handles selections of the sort and filter function
     const handleSortAndFilter = (e: React.MouseEvent<HTMLLIElement>, setterFunction: Function): void => {

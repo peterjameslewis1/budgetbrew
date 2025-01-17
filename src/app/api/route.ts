@@ -7,7 +7,7 @@ const fs = require('fs')
 
 let cachedDb: boolean = false;
 const connectToDb = async () => {
-  const uri = 'mongodb+srv://peterjameslewis:Harrison1%21@cluster0.pdyn0.mongodb.net/'
+  const uri = process.env.NEXT_PUBLIC_MONGO_URI
   if (cachedDb) {
     return cachedDb;
   }
